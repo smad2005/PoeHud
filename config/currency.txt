@@ -1,22 +1,21 @@
-Cartographer's Chisel
-Glassblower's Bauble
-Gemcutter's Prism
-Jeweller's Orb
-Chromatic Orb
-Orb of Fusing
-Orb of Transmutation
-Orb of Chance
-Orb of Alchemy
-Regal Orb
-Orb of Augmentation
-Exalted Orb
-Orb of Alteration
-Chaos Orb
-Blessed Orb
-Divine Orb
-Orb of Scouring
-Mirror of Kalandra
-Eternal Orb
-Orb of Regret
-Vaal Orb
-Albino Rhoa Feather
+Резец картографа
+Стекольная масса
+Призма камнерезчика
+Сфера златокузнеца
+Цветная сфера
+Сфера соединения
+Сфера превращения
+Сфера удачи
+Сфера алхимии
+Сфера царей
+Сфера усиления
+Сфера возвышения
+Сфера перемен
+Сфера хаоса
+Благодатная сфера
+Божественная сфера
+Сфера очищения
+Зеркало Каландры
+Сфера вечного
+Сфера раскаяния
+Сфера ваал

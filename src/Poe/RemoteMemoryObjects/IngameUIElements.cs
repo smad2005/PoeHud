@@ -80,7 +80,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element InventoryPanel
         {
-            get { return ReadObjectAt<Element>(12 + 0xF4); }
+            get { return ReadObjectAt<Element>(12 + 0xF8); }
         }
 
         public Element StashPanel
@@ -95,7 +95,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element TreePanel
         {
-            get { return ReadObjectAt<Element>(12 + 0x108); }
+            get { return ReadObjectAt<Element>(12 + 0x10C); }
         }
 
         public Element CharacterPanel
@@ -120,14 +120,14 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Map Map
         {
-            get { return ReadObjectAt<Map>(16 + 0x11C); }
+            get { return ReadObjectAt<Map>(16 + 0x120); }
         }
 
         public IEnumerable<ItemsOnGroundLabelElement> ItemsOnGroundLabels
         {
             get
             {
-                var itemsOnGroundLabelRoot = ReadObjectAt<ItemsOnGroundLabelElement>(16 + 0x120);
+                var itemsOnGroundLabelRoot = ReadObjectAt<ItemsOnGroundLabelElement>(16 + 0x124);
                 return itemsOnGroundLabelRoot.Children;
             }
         }
@@ -153,12 +153,12 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element OpenLeftPanel
         {
-            get { return ReadObjectAt<Element>(16 + 0x154); }
+            get { return ReadObjectAt<Element>(16 + 0x158); }
         }
 
         public Element OpenRightPanel
         {
-            get { return ReadObjectAt<Element>(16 + 0x158); }
+            get { return ReadObjectAt<Element>(16 + 0x15c); }
         }
 
         public Element OpenNpcDialogPanel
@@ -189,12 +189,12 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element GemLvlUpPanel
         {
-            get { return ReadObjectAt<Element>(20 + 0x1F8); }
+            get { return ReadObjectAt<Element>(20 + 0x1FC); }
         }
 
         public ItemOnGroundTooltip ItemOnGroundTooltip
         {
-            get { return ReadObjectAt<ItemOnGroundTooltip>(20 + 0x208); }
+            get { return ReadObjectAt<ItemOnGroundTooltip>(20 + 0x20C); }
         }
     }
 }
