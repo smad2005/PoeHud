@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using PoeHUD.Controllers;
 using PoeHUD.Poe;
@@ -59,8 +60,10 @@ namespace PoeHUD.Models
             entityCache.Clear();
         }
 
+        private uint lapsCounter;
         public void RefreshState()
         {
+            lapsCounter++;
             int address = gameController.Game.IngameState.Data.LocalPlayer.Address;
             if ((Player == null) || (Player.Address != address))
             {
@@ -68,44 +71,50 @@ namespace PoeHUD.Models
             }
             if (gameController.Area.CurrentArea == null)
                 return;
-            
-            Dictionary<int, Entity> newEntities = gameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary;
-            var newCache = new Dictionary<int, EntityWrapper>();
-            foreach (var keyEntity in newEntities)
+            if (lapsCounter % 10 == 0)
             {
-                if (!keyEntity.Value.IsValid)
-                    continue;
-
-                int entityAddress = keyEntity.Key;
-                string uniqueEntityName = keyEntity.Value.Path + entityAddress;
-
-                if (ignoredEntities.Contains(uniqueEntityName))
-                    continue;
-
-                if (entityCache.ContainsKey(entityAddress) && entityCache[entityAddress].IsValid)
+                Dictionary<int, Entity> newEntities = gameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary;
+                var newCache = new Dictionary<int, EntityWrapper>();
+                foreach (var keyEntity in newEntities)
                 {
-                    newCache.Add(entityAddress, entityCache[entityAddress]);
-                    entityCache[entityAddress].IsInList = true;
-                    entityCache.Remove(entityAddress);
-                    continue;
-                }
+                    if (!keyEntity.Value.IsValid)
+                        continue;
 
-                var entity = new EntityWrapper(gameController, keyEntity.Value);
-                if ((entity.Path.StartsWith("Metadata/Effects") || ((entityAddress & 0x80000000L) != 0L)) ||
-                    entity.Path.StartsWith("Metadata/Monsters/Daemon"))
-                {
-                    ignoredEntities.Add(uniqueEntityName);
-                    continue;
-                }
+                    int entityAddress = keyEntity.Key;
+                    string uniqueEntityName = keyEntity.Value.Path + entityAddress;
 
-                if (EntityAdded != null)
-                {
-                    EntityAdded(entity);
+                    if (ignoredEntities.Contains(uniqueEntityName))
+                        continue;
+
+                    if (entityCache.ContainsKey(entityAddress) && entityCache[entityAddress].IsValid)
+                    {
+                        newCache.Add(entityAddress, entityCache[entityAddress]);
+                        entityCache[entityAddress].IsInList = true;
+                        entityCache.Remove(entityAddress);
+                        continue;
+                    }
+
+                    var entity = new EntityWrapper(gameController, keyEntity.Value);
+                    if ((entity.Path.StartsWith("Metadata/Effects") || ((entityAddress & 0x80000000L) != 0L)) ||
+                        entity.Path.StartsWith("Metadata/Monsters/Daemon"))
+                    {
+                        ignoredEntities.Add(uniqueEntityName);
+                        continue;
+                    }
+
+                    if (EntityAdded != null)
+                    {
+                        EntityAdded(entity);
+                    }
+                    newCache.Add(entityAddress, entity);
                 }
-                newCache.Add(entityAddress, entity);
+                RemoveOldEntitiesFromCache();
+                entityCache = newCache;
             }
-            RemoveOldEntitiesFromCache();
-            entityCache = newCache;
+            else
+            {
+                Thread.Sleep(8);
+            }
         }
 
         public EntityWrapper GetEntityById(int id)
