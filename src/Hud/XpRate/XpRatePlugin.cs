@@ -94,7 +94,7 @@ namespace PoeHUD.Hud.XpRate
         {
             if (GameController.InGame)
             {
-                startXp = GameController.Player.GetComponent<Player>().XP;
+                startXp = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Player>().XP;
             }
 
             startTime = lastTime = DateTime.Now;
