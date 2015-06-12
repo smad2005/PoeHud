@@ -9,7 +9,7 @@ namespace PoeHUD.Poe.Components
 
         public bool IsStrongbox
         {
-            get { return Address != 0 && M.ReadInt(Address + 52) != 0; }
+            get { return Address != 0 && M.ReadInt(Address + 60) != 0; }
         }
     }
 }
