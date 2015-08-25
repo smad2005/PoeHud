@@ -164,7 +164,7 @@ namespace PoeHUD.Hud.Loot
 
         protected override void OnEntityAdded(EntityWrapper entity)
         {
-            if (Settings.Enable && entity != null && !GameController.Area.CurrentArea.IsTown && !currentAlerts.ContainsKey(entity) && entity.HasComponent<WorldItem>())
+            if (Settings.Enable  && entity != null && !GameController.Area.CurrentArea.IsTown && !currentAlerts.ContainsKey(entity) && entity.HasComponent<WorldItem>())
             {
                 IEntity item = entity.GetComponent<WorldItem>().ItemEntity;
                 if (Settings.Alternative && !string.IsNullOrEmpty(Settings.FilePath))
@@ -179,10 +179,10 @@ namespace PoeHUD.Hud.Loot
                 }
                 else
                 {
-                    ItemUsefulProperties props = initItem(item);
-                    if (props.ShouldAlert(currencyNames, Settings))
-                    {
-                        AlertDrawStyle drawStyle = props.GetDrawStyle();
+                ItemUsefulProperties props = initItem(item);
+                if (props.ShouldAlert(currencyNames, Settings))
+                {
+                    AlertDrawStyle drawStyle = props.GetDrawStyle();
                         PrepareForDrawingAndPlaySound(entity, drawStyle);
                     }
                     Settings.Alternative.Value = false;
@@ -192,15 +192,15 @@ namespace PoeHUD.Hud.Loot
 
         private void PrepareForDrawingAndPlaySound(EntityWrapper entity, AlertDrawStyle drawStyle)
         {
-            currentAlerts.Add(entity, drawStyle);
-            CurrentIcons[entity] = new MapIcon(entity, new HudTexture("minimap_default_icon.png", drawStyle.TextColor), () => Settings.ShowItemOnMap, 8);
+                    currentAlerts.Add(entity, drawStyle);
+                    CurrentIcons[entity] = new MapIcon(entity, new HudTexture("currency.png", drawStyle.AlertColor), () => Settings.ShowItemOnMap, 7);
 
-            if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
-            {
-                playedSoundsCache.Add(entity.LongId);
-                Sounds.AlertSound.Play();
-            }
-        }
+                    if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
+                    {
+                        playedSoundsCache.Add(entity.LongId);
+                        Sounds.AlertSound.Play();
+                    }
+                }
 
         protected override void OnEntityRemoved(EntityWrapper entity)
         {
@@ -220,7 +220,7 @@ namespace PoeHUD.Hud.Loot
             string[] array = File.ReadAllLines("config/crafting_bases.txt");
             foreach (string text in array.Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith("#")))
             {
-                string[] parts = text.Split(new[] { ',' });
+                string[] parts = text.Split(',');
                 string itemName = parts[0].Trim();
 
                 var item = new CraftingBase { Name = itemName };
@@ -292,7 +292,7 @@ namespace PoeHUD.Hud.Loot
                     RectangleF rect = entityLabel.Label.GetClientRect();
                     if ((ui.OpenLeftPanel.IsVisible && ui.OpenLeftPanel.GetClientRect().Intersects(rect)) || (ui.OpenRightPanel.IsVisible && ui.OpenRightPanel.GetClientRect().Intersects(rect)))
                     {
-                        return shouldUpdate;
+                        return false;
                     }
 
                     ColorNode borderColor = Settings.BorderSettings.BorderColor;
@@ -353,7 +353,7 @@ namespace PoeHUD.Hud.Loot
             }
             if (drawStyle.BorderWidth > 0)
             {
-                Graphics.DrawFrame(boxRect, drawStyle.BorderWidth, drawStyle.BorderColor);
+                Graphics.DrawFrame(boxRect, drawStyle.FrameWidth, drawStyle.FrameColor);
             }
             return new Vector2(fullWidth, fullHeight);
         }
