@@ -15,9 +15,9 @@ namespace PoeHUD.Framework.Helpers
             }
 
             if (abs >= 1000)
-			{
-				return string.Concat((value / 1000).ToString("F1"), "K");
-			}
+            {
+                return string.Concat((value / 1000).ToString("F1"), "K");
+            }
 
             return value.ToString(format);
         }
