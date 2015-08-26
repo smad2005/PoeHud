@@ -20,9 +20,12 @@ using PoeHUD.Poe.Components;
 using PoeHUD.Poe.Elements;
 using PoeHUD.Poe.RemoteMemoryObjects;
 using PoeHUD.Poe.UI.Elements;
-
 using SharpDX;
 using SharpDX.Direct3D9;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace PoeHUD.Hud.Loot
 {
@@ -101,7 +104,7 @@ namespace PoeHUD.Hud.Loot
 
         public override void Render()
         {
-            base.Render();
+            base.Render(); HideAll();
             if (Settings.Enable)
             {
                 Vector2 playerPos = GameController.Player.GetComponent<Positioned>().GridPos;
@@ -137,15 +140,15 @@ namespace PoeHUD.Hud.Loot
                     }
                     else
                         if (Settings.ShowText & (!Settings.HideOthers | entityLabel.CanPickUp))
-                        {
-                            position = DrawText(playerPos, position, BOTTOM_MARGIN, kv, text);
-                        }
+                    {
+                        position = DrawText(playerPos, position, BOTTOM_MARGIN, kv, text);
+                    }
                 }
                 Size = new Size2F(0, position.Y); //bug absent width
 
                 if (shouldUpdate)
                 {
-                    currentLabels = GameController.Game.IngameState.IngameUi.ItemsOnGroundLabels.GroupBy(y=>y.ItemOnGround.Address).ToDictionary(y =>y.Key, y => y.First());
+                    currentLabels = GameController.Game.IngameState.IngameUi.ItemsOnGroundLabels.GroupBy(y => y.ItemOnGround.Address).ToDictionary(y => y.Key, y => y.First());
                 }
             }
         }
@@ -164,7 +167,7 @@ namespace PoeHUD.Hud.Loot
 
         protected override void OnEntityAdded(EntityWrapper entity)
         {
-            if (Settings.Enable  && entity != null && !GameController.Area.CurrentArea.IsTown && !currentAlerts.ContainsKey(entity) && entity.HasComponent<WorldItem>())
+            if (Settings.Enable && entity != null && !GameController.Area.CurrentArea.IsTown && !currentAlerts.ContainsKey(entity) && entity.HasComponent<WorldItem>())
             {
                 IEntity item = entity.GetComponent<WorldItem>().ItemEntity;
                 if (Settings.Alternative && !string.IsNullOrEmpty(Settings.FilePath))
