@@ -26,11 +26,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
+using PoeHUD.Framework;
 
 namespace PoeHUD.Hud.Loot
 {
     public class ItemAlertPlugin : SizedPluginWithMapIcons<ItemAlertSettings>
     {
+        private bool holdKey;
+
         private readonly HashSet<long> playedSoundsCache;
 
         private readonly Dictionary<EntityWrapper, AlertDrawStyle> currentAlerts;
@@ -104,7 +108,18 @@ namespace PoeHUD.Hud.Loot
 
         public override void Render()
         {
-            base.Render(); HideAll();
+            base.Render();
+
+            if (!holdKey && WinApi.IsKeyDown(Keys.F10))
+            {
+                holdKey = true;
+                Settings.Enable.Value = !Settings.Enable.Value;
+            }
+            else if (holdKey && !WinApi.IsKeyDown(Keys.F10))
+            {
+                holdKey = false;
+            }
+
             if (Settings.Enable)
             {
                 Vector2 playerPos = GameController.Player.GetComponent<Positioned>().GridPos;
