@@ -9,6 +9,7 @@ using Antlr4.Runtime.Tree;
 using PoeFilterParser;
 using PoeFilterParser.Model;
 using PoeHUD.Controllers;
+using PoeHUD.Framework;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.Settings;
 using PoeHUD.Hud.UI;
@@ -46,6 +47,8 @@ namespace PoeHUD.Hud.Loot
         private Dictionary<int, ItemsOnGroundLabelElement> currentLabels;
 
         private PoeFilterVisitor visitor;
+
+        private bool holdKey;
 
         public ItemAlertPlugin(GameController gameController, Graphics graphics, ItemAlertSettings settings)
             : base(gameController, graphics, settings)
@@ -197,10 +200,10 @@ namespace PoeHUD.Hud.Loot
                 }
                 else
                 {
-                ItemUsefulProperties props = initItem(item);
-                if (props.ShouldAlert(currencyNames, Settings))
-                {
-                    AlertDrawStyle drawStyle = props.GetDrawStyle();
+                    ItemUsefulProperties props = initItem(item);
+                    if (props.ShouldAlert(currencyNames, Settings))
+                    {
+                        AlertDrawStyle drawStyle = props.GetDrawStyle();
                         PrepareForDrawingAndPlaySound(entity, drawStyle);
                     }
                     Settings.Alternative.Value = false;
@@ -210,15 +213,15 @@ namespace PoeHUD.Hud.Loot
 
         private void PrepareForDrawingAndPlaySound(EntityWrapper entity, AlertDrawStyle drawStyle)
         {
-                    currentAlerts.Add(entity, drawStyle);
+            currentAlerts.Add(entity, drawStyle);
                     CurrentIcons[entity] = new MapIcon(entity, new HudTexture("currency.png", drawStyle.AlertColor), () => Settings.ShowItemOnMap, 7);
 
-                    if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
-                    {
-                        playedSoundsCache.Add(entity.LongId);
-                        Sounds.AlertSound.Play();
-                    }
-                }
+            if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
+            {
+                playedSoundsCache.Add(entity.LongId);
+                Sounds.AlertSound.Play();
+            }
+        }
 
         protected override void OnEntityRemoved(EntityWrapper entity)
         {
