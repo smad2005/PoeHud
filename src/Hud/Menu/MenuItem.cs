@@ -78,7 +78,6 @@ namespace PoeHUD.Hud.Menu
                 }
             }
         }
-
         public abstract void Render(Graphics graphics, MenuSettings settings);
 
         public virtual void SetHovered(bool hover)

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Antlr4.4.5-alpha002\build\Antlr4.props" Condition="Exists('packages\Antlr4.4.5-alpha002\build\Antlr4.props')" />
   <PropertyGroup>
     <ProjectGuid>{E86368B2-AE1E-4489-A749-E29A0AB48F83}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -143,8 +144,10 @@
     <Compile Include="Hud\InventoryPreview\CellData.cs" />
     <Compile Include="Hud\InventoryPreview\InventoryPreviewSettings.cs" />
     <Compile Include="Hud\InventoryPreview\InventoryPreviewPlugin.cs" />
-    <Compile Include="Hud\KillCounter\KillCounterSettings.cs" />
+    <Compile Include="Hud\ItemCounterPlugin.cs" />
+    <Compile Include="Hud\ItemCounterSettings.cs" />
     <Compile Include="Hud\KillCounter\KillCounterPlugin.cs" />
+    <Compile Include="Hud\KillCounter\KillCounterSettings.cs" />
     <Compile Include="Hud\Loot\BorderSettings.cs" />
     <Compile Include="Hud\Loot\ItemAlertSettings.cs" />
     <Compile Include="Hud\AdvancedTooltip\ItemLevelSettings.cs" />
@@ -329,10 +332,20 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>set LIBZ=$(SolutionDir)packages\LibZ.Bootstrap.1.1.0.2\tools\libz.exe
+    <PostBuildEvent>set LIBZ="$(SolutionDir)"packages\LibZ.Bootstrap.1.1.0.2\tools\libz.exe
 if "$(ConfigurationName)"=="Release" (
-%25LIBZ%25 inject-dll --assembly $(TargetFileName)    --include *.dll --move
-copy $(TargetPath) $(ProjectDir)\..
+%25LIBZ%25 inject-dll --assembly "$(TargetFileName)"    --include *.dll --move
+copy "$(TargetPath)" "$(ProjectDir)"\..
 )</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpDX.2.6.3\build\SharpDX.targets'))" />
+    <Error Condition="!Exists('packages\Antlr4.4.5-alpha002\build\Antlr4.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Antlr4.4.5-alpha002\build\Antlr4.props'))" />
+    <Error Condition="!Exists('packages\Antlr4.4.5-alpha002\build\Antlr4.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Antlr4.4.5-alpha002\build\Antlr4.targets'))" />
+  </Target>
+  <Import Project="packages\Antlr4.4.5-alpha002\build\Antlr4.targets" Condition="Exists('packages\Antlr4.4.5-alpha002\build\Antlr4.targets')" />
 </Project>

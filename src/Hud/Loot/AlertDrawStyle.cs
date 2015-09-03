@@ -1,6 +1,8 @@
-using PoeHUD.Models.Enums;
-using SharpDX;
 using System.Collections.Generic;
+
+using PoeHUD.Models.Enums;
+
+using SharpDX;
 
 namespace PoeHUD.Hud.Loot
 {
@@ -16,7 +18,6 @@ namespace PoeHUD.Hud.Loot
         };
 
         public AlertDrawStyle(object colorRef, int borderWidth, string text, int iconIndex)
-        public AlertDrawStyle(object colorRef, int frameWidth, string text, int iconIndex, Color frameColor)
         {
             BorderWidth = borderWidth;
             Text = text;
@@ -24,8 +25,7 @@ namespace PoeHUD.Hud.Loot
 
             if (colorRef is Color)
             {
-                FrameColor = frameColor;
-                AlertColor = (Color)colorRef;
+                TextColor = (Color)colorRef;
             }
             else
             {
@@ -36,9 +36,9 @@ namespace PoeHUD.Hud.Loot
         }
         public static Color GetTextColorByRarity(ItemRarity itemRarity)
         {
-                Color tempColor;
+            Color tempColor;
             return colors.TryGetValue(itemRarity, out tempColor) ? tempColor : Color.White;
-            }
+        }
 
 
         public AlertDrawStyle(string text, Color textColor, int borderWidth, Color borderColor, Color backgroundColor, int iconIndex)
@@ -51,9 +51,7 @@ namespace PoeHUD.Hud.Loot
             BackgroundColor = backgroundColor;
         }
 
-        public Color FrameColor { get; private set; }
-
-        public Color AlertColor { get; private set; }
+        public Color TextColor { get; private set; }
 
         public int BorderWidth { get; private set; }
 

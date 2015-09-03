@@ -10,12 +10,11 @@ namespace PoeHUD.Poe.Components
 {
     public class Mods : Component
     {
-        public ItemRarity ItemRarity => Address != 0 ? (ItemRarity) M.ReadInt(Address + 0x68) : ItemRarity.Normal;
+        public ItemRarity ItemRarity => Address != 0 ? (ItemRarity)M.ReadInt(Address + 0x68) : ItemRarity.Normal;
         public int ItemLevel => Address != 0 ? M.ReadInt(Address + 0x10C) : 1;
         public int RequiresLevel => Address != 0 ? M.ReadInt(Address + 0x110) : 1;
         public string UniqueName => Address != 0 ? M.ReadStringU(M.ReadInt(Address + 12, 4, 4)) : String.Empty;
         public ItemStats ItemStats => new ItemStats(base.Owner);
-
 
         public List<ItemMod> ItemMods
         {

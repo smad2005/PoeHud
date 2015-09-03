@@ -90,10 +90,7 @@ namespace PoeHUD.Poe.Components
             }
         }
 
-        public int NumberOfSockets
-        {
-            get { return SocketList.Count; }
-        }
+        public int NumberOfSockets => SocketList.Count;
 
         public bool IsRGB
         {

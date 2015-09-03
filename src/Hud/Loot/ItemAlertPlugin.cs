@@ -1,11 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
 using PoeFilterParser;
 using PoeFilterParser.Model;
 using PoeHUD.Controllers;
@@ -28,14 +21,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using PoeHUD.Framework;
 
 namespace PoeHUD.Hud.Loot
 {
     public class ItemAlertPlugin : SizedPluginWithMapIcons<ItemAlertSettings>
     {
-        private bool holdKey;
-
         private readonly HashSet<long> playedSoundsCache;
 
         private readonly Dictionary<EntityWrapper, AlertDrawStyle> currentAlerts;
@@ -61,8 +51,6 @@ namespace PoeHUD.Hud.Loot
             GameController.Area.OnAreaChange += OnAreaChange;
             PoeFilterInit(settings.FilePath);
             settings.FilePath.OnFileChanged += () => PoeFilterInit(settings.FilePath);
-
-
         }
 
         private void PoeFilterInit(string path)
@@ -94,7 +82,6 @@ namespace PoeHUD.Hud.Loot
                 Settings.Alternative.Value = false;
                 MessageBox.Show($"Line: {ex.Line}:{ex.CharPositionInLine}, {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 visitor = null;
-
             }
             catch (Exception ex)
             {
@@ -112,7 +99,6 @@ namespace PoeHUD.Hud.Loot
         public override void Render()
         {
             base.Render();
-
             if (!holdKey && WinApi.IsKeyDown(Keys.F10))
             {
                 holdKey = true;
@@ -196,7 +182,6 @@ namespace PoeHUD.Hud.Loot
                         AlertDrawStyle drawStyle = result;
                         PrepareForDrawingAndPlaySound(entity, drawStyle);
                     }
-
                 }
                 else
                 {
@@ -214,7 +199,7 @@ namespace PoeHUD.Hud.Loot
         private void PrepareForDrawingAndPlaySound(EntityWrapper entity, AlertDrawStyle drawStyle)
         {
             currentAlerts.Add(entity, drawStyle);
-                    CurrentIcons[entity] = new MapIcon(entity, new HudTexture("currency.png", drawStyle.AlertColor), () => Settings.ShowItemOnMap, 7);
+            CurrentIcons[entity] = new MapIcon(entity, new HudTexture("currency.png", drawStyle.TextColor), () => Settings.ShowItemOnMap, 7);
 
             if (Settings.PlaySound && !playedSoundsCache.Contains(entity.LongId))
             {
@@ -241,7 +226,7 @@ namespace PoeHUD.Hud.Loot
             string[] array = File.ReadAllLines("config/crafting_bases.txt");
             foreach (string text in array.Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith("#")))
             {
-                string[] parts = text.Split(',');
+                string[] parts = text.Split(new[] { ',' });
                 string itemName = parts[0].Trim();
 
                 var item = new CraftingBase { Name = itemName };
@@ -374,7 +359,7 @@ namespace PoeHUD.Hud.Loot
             }
             if (drawStyle.BorderWidth > 0)
             {
-                Graphics.DrawFrame(boxRect, drawStyle.FrameWidth, drawStyle.FrameColor);
+                Graphics.DrawFrame(boxRect, drawStyle.BorderWidth, drawStyle.BorderColor);
             }
             return new Vector2(fullWidth, fullHeight);
         }
