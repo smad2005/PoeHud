@@ -41,7 +41,7 @@ namespace PoeHUD.Hud.UI.Renderers
                     font.DrawText(sprite, text, fontDimension, align, color);
                 return new Size2(fontDimension.Width, fontDimension.Height);
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 //Console.WriteLine("Exception! X: " + position.X + ", Y: " + position.Y + ", Text: " + text);
                 //Console.WriteLine(exception.StackTrace);

@@ -3,7 +3,7 @@
 {
     public class WindowState : Element
     {
-        public bool IsVisibleLocal
+        public new bool IsVisibleLocal
         {
             get
             {

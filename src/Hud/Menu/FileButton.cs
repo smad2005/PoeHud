@@ -51,7 +51,7 @@ namespace PoeHUD.Hud.Menu
 
         }
 
-        protected override async void HandleEvent(MouseEventID id, Vector2 pos)
+        protected override void HandleEvent(MouseEventID id, Vector2 pos)
         {
             if (id == MouseEventID.LeftButtonDown)
             {
