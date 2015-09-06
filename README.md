@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/hiii0rp62djxptcn/branch/master?svg=true)](https://ci.appveyor.com/project/smad2005/poehud/branch/master)
+
 PoeHud
 ======
 
@@ -38,3 +40,8 @@ Portal Scroll
 Iron Ring
 ```
 Also the mods used for mobs and items are listed in Content.ggpk\Data\Mods.dat.
+
+### Before build
+```
+git submodule update --init --recursive
+```
