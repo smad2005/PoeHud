@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Antlr4.Runtime;
@@ -372,7 +373,15 @@ namespace PoeHUD.Hud.Loot
             CraftingBase craftingBase = new CraftingBase();
             if (Settings.Crafting)
             {
-                craftingBases.TryGetValue(name, out craftingBase);
+                foreach (KeyValuePair<string, CraftingBase> cb in craftingBases)
+                {
+                    if (cb.Key.Equals(name)
+                        || (new Regex(cb.Value.Name)).Match(name).Success)
+                    {
+                        craftingBase = cb.Value;
+                        break;
+                    }
+                }
             }
             return new ItemUsefulProperties(name, item, craftingBase);
         }
