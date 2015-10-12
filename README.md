@@ -27,12 +27,16 @@ Without writing to it so no map hack, disabling particles, zoom hack, fullbright
 The file config/crafting_bases.txt has the following syntax:
 `Name,[Level],[Quality],[Rarity1,[Rarity2,[Rarity3]]]`
 
+```
+    Rarity: Normal, Magic, Rare, Unique 
+```
+
 Examples of valid declarations:
 ```
 Vaal Regalia,78
 Corsair Sword,78,10
-Gold Ring,75,,White,Rare
-Ironscale Gauntlets,,10,White,Magic
+Gold Ring,75,,Normal,Rare
+Ironscale Gauntlets,,10,Normal,Magic
 Quicksilver Flask,1,5
 Portal Scroll
 Iron Ring
