@@ -29,7 +29,7 @@ namespace PoeHUD.Controllers
 				return;
 
             CurrentArea = new AreaInstance(clientsArea, curAreaHash, igsd.CurrentAreaLevel);
-			this.OnAreaChange(this);
+			this.OnAreaChange?.Invoke(this);
 		}
 	}
 }
