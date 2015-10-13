@@ -153,7 +153,7 @@ namespace PoeHUD.Framework
 
         public byte ReadByte(int addr)
         {
-            return ReadBytes(addr, 1)[0];
+            return ReadBytes(addr, 1).FirstOrDefault();
         }
 
         public byte[] ReadBytes(int addr, int length)
