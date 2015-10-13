@@ -36,7 +36,7 @@ namespace PoeHUD.Hud
         public MapIcon(EntityWrapper entityWrapper, HudTexture hudTexture, Func<bool> show, int iconSize = 10)
         {
             EntityWrapper = entityWrapper;
-            MinimapIcon = hudTexture;
+            TextureIcon = hudTexture;
             this.show = show;
             Size = iconSize;
         }
@@ -45,9 +45,7 @@ namespace PoeHUD.Hud
 
         public EntityWrapper EntityWrapper { get; private set; }
 
-        public HudTexture MinimapIcon { get; private set; }
-
-        public HudTexture LargeMapIcon { get; set; }
+        public HudTexture TextureIcon { get; private set; }
 
         public int Size { get; private set; }
 
@@ -80,5 +78,12 @@ namespace PoeHUD.Hud
         {
             return show();
         }
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(TextureIcon !=null);
+        }
+
     }
 }
