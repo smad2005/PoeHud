@@ -9,8 +9,8 @@ namespace PoeHUD.Models
     public sealed class ItemStats
     {
         private static StatTranslator translate;
-        private Entity item;
-        private float[] stats;
+        private readonly Entity item;
+        private readonly float[] stats;
 
         public ItemStats(Entity item)
         {

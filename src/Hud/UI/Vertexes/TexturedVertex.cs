@@ -13,9 +13,9 @@ namespace PoeHUD.Hud.UI.Vertexes
             VertexElement.VertexDeclarationEnd
         };
 
-        private Vector2 position, textureUV;
+        private readonly Vector2 position, textureUV;
 
-        private ColorBGRA diffuse;
+        private readonly ColorBGRA diffuse;
 
         public TexturedVertex(float x, float y, float u, float v, ColorBGRA diffuse)
         {

@@ -21,7 +21,7 @@ namespace PoeHUD.Hud.Health
     public class HealthBarPlugin : Plugin<HealthBarSettings>
     {
         private readonly Dictionary<CreatureType, List<HealthBar>> healthBars;
-        private DebuffPanelConfig debuffPanelConfig;
+        private readonly DebuffPanelConfig debuffPanelConfig;
         public HealthBarPlugin(GameController gameController, Graphics graphics, HealthBarSettings settings)
             : base(gameController, graphics, settings)
         {

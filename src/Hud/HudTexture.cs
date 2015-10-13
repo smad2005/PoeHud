@@ -9,7 +9,7 @@ namespace PoeHUD.Hud
     {
         private string fileName;
 
-        private Color color;
+        private readonly Color color;
 
         public HudTexture(string fileName) : this(fileName, Color.White) {}
 

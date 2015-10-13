@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Models.Interfaces;
 
 namespace PoeHUD.Poe
@@ -17,7 +18,11 @@ namespace PoeHUD.Poe
 
         public string Path
         {
-            get { return M.ReadStringU(M.ReadInt(Address, 8)); }
+            get
+            {
+                Contract.Ensures(Contract.Result<string>() != null);
+                return M.ReadStringU(M.ReadInt(Address, 8));
+            }
         }
 
         public int Id

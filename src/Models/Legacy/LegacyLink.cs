@@ -7,7 +7,7 @@ namespace PoeHUD.Models.Legacy
     public class LegacyLink
 	{
 		public static readonly LegacyLink EmptyLegacyLink = new LegacyLink(new LegacySocket[0]);
-		private LegacySocket[] link;
+		private readonly LegacySocket[] link;
 		public int Length
 		{
 			get

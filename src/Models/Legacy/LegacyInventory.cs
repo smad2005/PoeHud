@@ -7,8 +7,8 @@ namespace PoeHUD.Models.Legacy
     [Obsolete]
 	public class LegacyInventory
 	{
-		private Poe.RemoteMemoryObjects.Inventory InternalInventory;
-		private GameController Poe;
+		private readonly Poe.RemoteMemoryObjects.Inventory InternalInventory;
+		private readonly GameController Poe;
 		public int Width
 		{
 			get

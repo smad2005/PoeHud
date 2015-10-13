@@ -179,7 +179,7 @@ namespace PoeHUD.Hud.Loot
                 }
                 else
                 {
-                    ItemUsefulProperties props = initItem(item);
+                    ItemUsefulProperties props = GetItemUsefulProperties(item);
                     if (props.ShouldAlert(currencyNames, Settings))
                     {
                         AlertDrawStyle drawStyle = props.GetDrawStyle();
@@ -358,7 +358,7 @@ namespace PoeHUD.Hud.Loot
             return new Vector2(fullWidth, fullHeight);
         }
 
-        private ItemUsefulProperties initItem(IEntity item)
+        private ItemUsefulProperties GetItemUsefulProperties(IEntity item)
         {
             string name = GameController.Files.BaseItemTypes.Translate(item.Path).BaseName;
 

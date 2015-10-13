@@ -31,7 +31,7 @@ namespace PoeHUD.Hud.UI
 
         private bool running = true;
 
-        private ManualResetEventSlim renderLocker = new ManualResetEventSlim(false);
+        private readonly ManualResetEventSlim renderLocker = new ManualResetEventSlim(false);
 
         public Graphics(RenderForm form, int width, int height)
         {
