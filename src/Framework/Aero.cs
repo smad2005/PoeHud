@@ -11,7 +11,7 @@ namespace PoeHUD.Framework
 {
     public class Aero
     {
-        private string windowsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        private readonly string windowsFolder = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
         /// Handles to Win 32 API
         [DllImport("user32.dll", EntryPoint = "FindWindow")]

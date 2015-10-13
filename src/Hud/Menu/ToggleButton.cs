@@ -17,9 +17,9 @@ namespace PoeHUD.Hud.Menu
 
         private readonly string key;
 
-        private MenuItem parent;
+        private readonly MenuItem parent;
 
-        private Func<MenuItem, bool> hide;
+        private readonly Func<MenuItem, bool> hide;
 
         public ToggleButton(MenuItem parent,string name, ToggleNode node, string key, Func<MenuItem,bool> hide)
         {

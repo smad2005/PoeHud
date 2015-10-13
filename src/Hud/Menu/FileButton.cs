@@ -15,7 +15,7 @@ namespace PoeHUD.Hud.Menu
 {
     public sealed class FileButton : MenuItem
     {
-        private FileNode path;
+        private readonly FileNode path;
 
         public FileButton( FileNode path)
         {

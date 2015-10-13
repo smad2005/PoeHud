@@ -20,6 +20,7 @@ namespace PoeHUD.Hud.AdvancedTooltip
             Contract.Requires(mod != null);
             Contract.Requires(fs != null);
             Contract.Requires(fs.Mods.records != null);
+            Contract.Requires(fs.Mods.recordsByTier != null);
             string name = mod.RawName;
             Record = fs.Mods.records[name];
             AffixType = Record.AffixType;
