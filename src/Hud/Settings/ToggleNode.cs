@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 
 namespace PoeHUD.Hud.Settings
 {
@@ -31,6 +32,7 @@ namespace PoeHUD.Hud.Settings
 
         public static implicit operator bool(ToggleNode node)
         {
+            Contract.Requires(node != null);
             return node.Value;
         }
 

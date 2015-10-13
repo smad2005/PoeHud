@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using Antlr4.Runtime.Dfa;
 
 namespace PoeHUD.Hud.Settings
@@ -30,6 +31,7 @@ namespace PoeHUD.Hud.Settings
 
         public static implicit operator string(FileNode node)
         {
+            Contract.Requires(node != null);
             return node.Value;
         }
 

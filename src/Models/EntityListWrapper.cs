@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using PoeHUD.Controllers;
 using PoeHUD.Poe;
@@ -17,6 +18,8 @@ namespace PoeHUD.Models
 
         public EntityListWrapper(GameController gameController)
         {
+            Contract.Requires(gameController != null);
+            Contract.Requires(gameController.Area != null);
             this.gameController = gameController;
             entityCache = new Dictionary<int, EntityWrapper>();
             ignoredEntities = new HashSet<string>();
@@ -117,6 +120,7 @@ namespace PoeHUD.Models
 
         public EntityLabel GetLabelForEntity(EntityWrapper entity)
         {
+            Contract.Requires(entity != null);
             var hashSet = new HashSet<int>();
             int entityLabelMap = gameController.Game.IngameState.EntityLabelMap;
             int num = entityLabelMap;

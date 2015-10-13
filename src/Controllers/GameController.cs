@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using PoeHUD.Framework;
 using PoeHUD.Models;
@@ -13,6 +14,7 @@ namespace PoeHUD.Controllers
     {
         public GameController(Memory memory)
         {
+            Contract.Requires(memory != null);
             Memory = memory;
             Area = new AreaController(this);
             EntityListWrapper = new EntityListWrapper(this);
@@ -29,17 +31,29 @@ namespace PoeHUD.Controllers
 
         public IEnumerable<EntityWrapper> Entities
         {
-            get { return EntityListWrapper.Entities; }
+            get
+            {
+                Contract.Requires(EntityListWrapper != null);
+                return EntityListWrapper.Entities;
+            }
         }
 
         public EntityWrapper Player
         {
-            get { return EntityListWrapper.Player; }
+            get
+            {
+                Contract.Requires(EntityListWrapper != null);
+                return EntityListWrapper.Player;
+            }
         }
 
         public bool InGame
         {
-            get { return Game.IngameState.InGame; }
+            get
+            {
+                Contract.Requires(Game != null);
+                return Game.IngameState.InGame;
+            }
         }
 
         public FsController Files { get; private set; }
@@ -55,6 +69,7 @@ namespace PoeHUD.Controllers
 
         public List<EntityWrapper> GetAllPlayerMinions()
         {
+            Contract.Requires(Entities != null);
             return Entities.Where(x => x.HasComponent<Player>()).SelectMany(c => c.Minions).ToList();
         }
 

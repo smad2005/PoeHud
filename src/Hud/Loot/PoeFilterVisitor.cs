@@ -16,7 +16,7 @@ namespace PoeHUD.Hud.Loot
     {
         private readonly GameController gameController;
         private readonly IParseTree tree;
-        private ItemAlertSettings settings;
+        private readonly ItemAlertSettings settings;
         private IEntity entity;
 
         public PoeFilterVisitor(IParseTree tree, GameController gameController, ItemAlertSettings settings)

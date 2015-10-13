@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 using PoeHUD.Poe.RemoteMemoryObjects;
 
@@ -12,7 +13,11 @@ namespace PoeHUD.Poe
 
         protected Offsets Offsets
         {
-            get { return M.offsets; }
+            get
+            {
+                Contract.Requires(M != null);
+                return M.offsets;
+            }
         }
 
 

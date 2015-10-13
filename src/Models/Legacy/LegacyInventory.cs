@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 
 namespace PoeHUD.Models.Legacy
@@ -42,6 +43,8 @@ namespace PoeHUD.Models.Legacy
 		}
 		public LegacyInventory(GameController poe, int address) : this(poe, poe.Game.GetObject<Poe.RemoteMemoryObjects.Inventory>(address))
 		{
-		}
+            Contract.Requires(poe != null);
+            Contract.Requires(poe.Game != null);
+        }
 	}
 }

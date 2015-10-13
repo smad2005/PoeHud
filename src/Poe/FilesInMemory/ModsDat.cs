@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 
 namespace PoeHUD.Poe.FilesInMemory
@@ -75,6 +76,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
             public ModRecord(Memory m, StatsDat sDat, TagsDat tagsDat, int addr)
             {
+                Contract.Requires(m != null);
                 Key = m.ReadStringU(m.ReadInt(addr + 0));
                 Unknown4 = m.ReadInt(addr + 4);
                 MinLevel = m.ReadInt(addr + 0x10);

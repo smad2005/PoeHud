@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Controllers;
@@ -28,6 +29,7 @@ namespace PoeHUD.Hud.Trackers
         public MonsterTracker(GameController gameController, Graphics graphics, MonsterTrackerSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             alreadyAlertedOf = new HashSet<int>();
             alertTexts = new Dictionary<EntityWrapper, MonsterConfigLine>();
             modAlerts = LoadConfig("config/monster_mod_alerts.txt");

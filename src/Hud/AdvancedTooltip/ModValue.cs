@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using PoeHUD.Controllers;
 using PoeHUD.Framework;
@@ -16,6 +17,9 @@ namespace PoeHUD.Hud.AdvancedTooltip
 
         public ModValue(ItemMod mod, FsController fs, int iLvl)
         {
+            Contract.Requires(mod != null);
+            Contract.Requires(fs != null);
+            Contract.Requires(fs.Mods.records != null);
             string name = mod.RawName;
             Record = fs.Mods.records[name];
             AffixType = Record.AffixType;

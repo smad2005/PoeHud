@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using SharpDX;
@@ -29,6 +30,7 @@ namespace PoeHUD.Framework.Helpers
 
         public static string GetRandomWord(int length)
         {
+            Contract.Requires(0 <= length);
             var array = new char[length];
             for (int i = 0; i < length; i++)
             {
@@ -39,6 +41,7 @@ namespace PoeHUD.Framework.Helpers
 
         public static float Max(params float[] values)
         {
+            Contract.Requires(values != null);
             float max = values.First();
             for (int i = 1; i < values.Length; i++)
             {

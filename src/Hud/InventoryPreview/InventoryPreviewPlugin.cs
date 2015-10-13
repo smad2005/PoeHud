@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -32,6 +33,7 @@ namespace PoeHUD.Hud.InventoryPreview
             InventoryPreviewSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             MouseHook.MouseDown += onMouseDown =  info => info.Handled = OnMouseEvent(info);
             cells = new CellData[CELLS_Y_COUNT, CELLS_X_COUNT];
         }

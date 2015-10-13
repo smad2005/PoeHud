@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-
+using System.Diagnostics.Contracts;
 using SharpDX;
 
 using Point = System.Drawing.Point;
@@ -14,6 +14,7 @@ namespace PoeHUD.Framework
 
         public GameWindow(Process process)
         {
+            Contract.Requires(process != null);
             Process = process;
             handle = process.MainWindowHandle;
         }

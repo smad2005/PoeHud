@@ -41,7 +41,7 @@ namespace PoeHUD.Framework.Helpers
         {
             try
             {
-                action();
+                action?.Invoke();
                 return true;
             }
             catch

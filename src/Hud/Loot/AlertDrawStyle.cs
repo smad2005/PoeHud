@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Models.Enums;
 
 using SharpDX;
@@ -19,6 +19,7 @@ namespace PoeHUD.Hud.Loot
 
         public AlertDrawStyle(object colorRef, int borderWidth, string text, int iconIndex)
         {
+            Contract.Requires(colorRef != null);
             BorderWidth = borderWidth;
             Text = text;
             IconIndex = iconIndex;

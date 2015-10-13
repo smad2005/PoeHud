@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 using PoeHUD.Hud.UI;
 using PoeHUD.Models;
@@ -21,7 +21,10 @@ namespace PoeHUD.Hud.Trackers
         };
 
         public PoiTracker(GameController gameController, Graphics graphics, PoiTrackerSettings settings)
-            : base(gameController, graphics, settings) {}
+            : base(gameController, graphics, settings)
+        {
+            Contract.Requires(gameController != null);
+        }
 
         public override void Render()
         {

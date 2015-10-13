@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 
 namespace PoeHUD.Framework.Helpers
 {
@@ -16,6 +17,7 @@ namespace PoeHUD.Framework.Helpers
         public static void ForEach<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dictionary,
             Action<TKey, TValue> action)
         {
+            Contract.Requires(dictionary != null);
             foreach (KeyValuePair<TKey, TValue> pair in dictionary)
             {
                 action(pair.Key, pair.Value);

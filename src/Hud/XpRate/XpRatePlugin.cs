@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.UI;
@@ -22,6 +22,7 @@ namespace PoeHUD.Hud.XpRate
         public XpRatePlugin(GameController gameController, Graphics graphics, XpRateSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             Reset();
             GameController.Area.OnAreaChange += area => Reset();
         }

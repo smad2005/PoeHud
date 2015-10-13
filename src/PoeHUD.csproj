@@ -99,7 +99,7 @@
     <CodeContractsExtraAnalysisOptions />
     <CodeContractsSQLServerOption />
     <CodeContractsBaseLineFile />
-    <CodeContractsCacheAnalysisResults>False</CodeContractsCacheAnalysisResults>
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
     <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
@@ -182,6 +182,7 @@
     <Compile Include="Hud\Health\HealthBarSettings.cs" />
     <Compile Include="Hud\Health\UnitSettings.cs" />
     <Compile Include="Hud\Icons\MapIconsSettings.cs" />
+    <Compile Include="Hud\Interfaces\Contracts\Contract4IPanelChild.cs" />
     <Compile Include="Hud\Interfaces\IPanelChild.cs" />
     <Compile Include="Hud\Interfaces\IPlugin.cs" />
     <Compile Include="Hud\InventoryPreview\CellData.cs" />

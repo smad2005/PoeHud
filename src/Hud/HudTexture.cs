@@ -1,4 +1,5 @@
-﻿using PoeHUD.Hud.UI;
+﻿using System.Diagnostics.Contracts;
+using PoeHUD.Hud.UI;
 using PoeHUD.Models.Enums;
 
 using SharpDX;
@@ -38,6 +39,7 @@ namespace PoeHUD.Hud
 
         public void Draw(Graphics graphics, RectangleF rectangle)
         {
+            Contract.Requires(graphics != null);
             graphics.DrawImage(fileName, rectangle, color);
         }
 

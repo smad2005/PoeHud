@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Controllers;
@@ -30,6 +31,7 @@ namespace PoeHUD.Hud.Dps
         public DpsMeterPlugin(GameController gameController, Graphics graphics, DpsMeterSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             lastTime = DateTime.Now;
             GameController.Area.OnAreaChange += area =>
             {

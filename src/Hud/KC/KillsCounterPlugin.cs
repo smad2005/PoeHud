@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Controllers;
@@ -27,6 +28,7 @@ namespace PoeHUD.Hud.KC
         public KillsCounterPlugin(GameController gameController, Graphics graphics, KillCounterSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             aliveEntities = new HashSet<EntityWrapper>();
             countedIds = new HashSet<long>();
             counters = new Dictionary<MonsterRarity, int>();

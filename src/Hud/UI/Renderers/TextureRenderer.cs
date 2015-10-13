@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.UI.Vertexes;
 
@@ -65,6 +65,7 @@ namespace PoeHUD.Hud.UI.Renderers
 
         public void DrawImage(string fileName, RectangleF rect, Color color, float repeatX)
         {
+            Contract.Requires(fileName != null);
             TexturedVertex[] data =
             {
                 new TexturedVertex(rect.Left, rect.Top, 0, 0, color),
@@ -79,6 +80,7 @@ namespace PoeHUD.Hud.UI.Renderers
 
         public void DrawImage(string fileName, RectangleF rect, RectangleF uvCoords, Color color)
         {
+            Contract.Requires(fileName != null);
             TexturedVertex[] data =
             {
                 new TexturedVertex(rect.Left, rect.Top, uvCoords.Left, uvCoords.Top, color),

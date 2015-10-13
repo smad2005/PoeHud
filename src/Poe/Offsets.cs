@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Linq;
 using PoeHUD.Framework;
 using PoeHUD.Models;
@@ -133,6 +134,7 @@ namespace PoeHUD.Poe
 
         public void DoPatternScans(Memory m)
         {
+            Contract.Requires(m != null);
             int[] array = m.FindPatterns(new[]
             {
                 basePtrPattern,

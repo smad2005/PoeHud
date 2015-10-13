@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using PoeHUD.Poe.RemoteMemoryObjects;
 
 namespace PoeHUD.Models
@@ -15,6 +16,7 @@ namespace PoeHUD.Models
         public DateTime TimeEntered = DateTime.Now;
         public AreaInstance(AreaTemplate area, int hash, int realLevel)
         {
+            Contract.Requires(area != null);
             Hash = hash;
             RealLevel = realLevel;
             NominalLevel = area.NominalLevel;

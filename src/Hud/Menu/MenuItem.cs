@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Hud.UI;
@@ -28,6 +29,7 @@ namespace PoeHUD.Hud.Menu
 
         public virtual void AddChild(MenuItem item)
         {
+            Contract.Requires(item != null);
             float x = Bounds.X + Bounds.Width;
             float y = Bounds.Y + Children.Sum(current => current.Bounds.Height);
             item.Bounds = new RectangleF(x, y, item.DesiredWidth, item.DesiredHeight);

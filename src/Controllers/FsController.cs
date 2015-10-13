@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Windows.Forms;
 
 using PoeHUD.Framework;
@@ -31,6 +32,7 @@ namespace PoeHUD.Controllers
 
         public int FindFile(string name)
         {
+            Contract.Requires(name != null);
             try
             {
                 if (!(files.ContainsKey(name) || isLoaded))

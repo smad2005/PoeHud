@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 
 namespace PoeHUD.Poe.FilesInMemory
@@ -33,6 +34,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
             public TagRecord(Memory m, int addr)
             {
+                Contract.Requires(m != null);
                 Key = m.ReadStringU(m.ReadInt(addr + 0), 255);
                 Hash = m.ReadInt(addr + 4);
             }

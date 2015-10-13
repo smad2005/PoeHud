@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 
 namespace PoeHUD.Poe.FilesInMemory
@@ -47,6 +48,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
             public StatRecord(Memory m, int addr)
             {
+                Contract.Requires(m != null);
                 Key = m.ReadStringU(m.ReadInt(addr + 0), 255);
                 Unknown4 = m.ReadByte(addr + 4) != 0;
                 Unknown5 = m.ReadByte(addr + 5) != 0;

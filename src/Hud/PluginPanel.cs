@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.Interfaces;
@@ -112,6 +113,7 @@ namespace PoeHUD.Hud
 
         public void AddChildren(IPanelChild child)
         {
+            Contract.Requires(child != null);
             children.Add(child);
             int index = children.Count - 1;
 

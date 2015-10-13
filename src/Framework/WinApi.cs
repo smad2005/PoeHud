@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -43,11 +44,13 @@ namespace PoeHUD.Framework
 
         public static IntPtr OpenProcess(Process process, ProcessAccessFlags flags)
         {
+            Contract.Requires(process != null);
             return OpenProcess(flags, false, process.Id);
         }
 
         public static bool ReadProcessMemory(IntPtr handle, IntPtr baseAddress, byte[] buffer)
         {
+            Contract.Requires(buffer != null);
             IntPtr bytesRead;
             return ReadProcessMemory(handle, baseAddress, buffer, buffer.Length, out bytesRead);
         }

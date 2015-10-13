@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using PoeHUD.Models.Enums;
 
 namespace PoeHUD.Models.Legacy
@@ -37,7 +38,8 @@ namespace PoeHUD.Models.Legacy
 		}
 		public LegacyLink(string sockets)
 		{
-			this.link = new LegacySocket[sockets.Length];
+		    Contract.Requires(sockets != null);
+            this.link = new LegacySocket[sockets.Length];
 			for (int i = 0; i < sockets.Length; i++)
 			{
 				this.link[i] = this.CharToSocket(sockets.ToCharArray()[i]);
@@ -82,7 +84,8 @@ namespace PoeHUD.Models.Legacy
 		}
 		public bool Contains(LegacyLink other)
 		{
-			return other.NumberOfRed <= this.NumberOfRed && other.NumberOfGreen <= this.NumberOfGreen && other.NumberOfBlue <= this.NumberOfBlue;
+		    Contract.Requires(other != null);
+            return other.NumberOfRed <= this.NumberOfRed && other.NumberOfGreen <= this.NumberOfGreen && other.NumberOfBlue <= this.NumberOfBlue;
 		}
 	}
 }

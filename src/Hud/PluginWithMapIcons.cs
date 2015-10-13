@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 using PoeHUD.Hud.Interfaces;
 using PoeHUD.Hud.Settings;
@@ -13,6 +14,7 @@ namespace PoeHUD.Hud
 
         protected PluginWithMapIcons(GameController gameController, Graphics graphics, TSettings settings): base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             CurrentIcons = new Dictionary<EntityWrapper, MapIcon>();
             GameController.Area.OnAreaChange +=delegate 
             {

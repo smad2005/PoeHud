@@ -1,5 +1,5 @@
 using System;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Models;
 using PoeHUD.Poe.Components;
 
@@ -53,7 +53,11 @@ namespace PoeHUD.Hud
 
         public Vector2 WorldPosition
         {
-            get { return EntityWrapper.GetComponent<Positioned>().GridPos; }
+            get
+            {
+                Contract.Requires(EntityWrapper != null);
+                return EntityWrapper.GetComponent<Positioned>().GridPos;
+            }
         }
 
         public static Vector2 DeltaInWorldToMinimapDelta(Vector2 delta, double diag, float scale, float deltaZ = 0)
@@ -68,6 +72,7 @@ namespace PoeHUD.Hud
 
         public virtual bool IsEntityStillValid()
         {
+            Contract.Requires(EntityWrapper != null);
             return EntityWrapper.IsValid;
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Media;
 
 namespace PoeHUD.Hud
@@ -12,6 +13,7 @@ namespace PoeHUD.Hud
         
         public static void AddSound(string name)
         {
+            Contract.Requires(name != null);
             if (!soundLib.ContainsKey(name))
             {
                 try
@@ -29,6 +31,7 @@ namespace PoeHUD.Hud
 
         public static SoundPlayer GetSound(string name)
         {
+            Contract.Requires(name != null);
             return soundLib[name];
         }
 

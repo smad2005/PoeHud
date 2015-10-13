@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Threading;
 using PoeHUD.Framework;
@@ -38,6 +39,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
         static Vector2 oldplayerCord;
         public unsafe Vector2 WorldToScreen(Vector3 vec3, EntityWrapper entityWrapper)
         {
+            Contract.Requires(entityWrapper != null);
             Entity localPlayer = Game.IngameState.Data.LocalPlayer;
             var isplayer = localPlayer.Address == entityWrapper.Address && localPlayer.IsValid;
             var playerMoving = isplayer && localPlayer.GetComponent<Actor>().isMoving;

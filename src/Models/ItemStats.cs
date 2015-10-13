@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using PoeHUD.Models.Enums;
 using PoeHUD.Poe;
 using PoeHUD.Poe.Components;
@@ -14,6 +15,7 @@ namespace PoeHUD.Models
 
         public ItemStats(Entity item)
         {
+            Contract.Requires(item != null);
             this.item = item;
             if (translate == null)
             {

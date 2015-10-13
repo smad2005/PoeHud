@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -50,6 +51,7 @@ namespace PoeHUD.Framework
 
         public int GetModule(string name)
         {
+            Contract.Requires(name != null);
             if (modules.ContainsKey(name))
             {
                 return modules[name];
@@ -61,6 +63,7 @@ namespace PoeHUD.Framework
 
         public bool IsInvalid()
         {
+            Contract.Requires(Process != null);
             return Process.HasExited || closed;
         }
 
@@ -71,6 +74,7 @@ namespace PoeHUD.Framework
 
         public int ReadInt(int addr, params int[] offsets)
         {
+            Contract.Requires(offsets != null);
             int num = ReadInt(addr);
             for (int i = 0; i < offsets.Length; i++)
             {
@@ -158,6 +162,7 @@ namespace PoeHUD.Framework
 
         public byte[] ReadBytes(int addr, int length)
         {
+            Contract.Requires(length > 0);
             return ReadMem(addr, length);
         }
 
@@ -189,6 +194,7 @@ namespace PoeHUD.Framework
 
         public int[] FindPatterns(params Pattern[] patterns)
         {
+            Contract.Requires(patterns != null);
             byte[] exeImage = ReadBytes(AddressOfProcess, 0x2000000); //33mb
             var address = new int[patterns.Length];
 

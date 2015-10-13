@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 
@@ -21,6 +22,8 @@ namespace PoeHUD.Hud
 
         protected Plugin(GameController gameController, Graphics graphics, TSettings settings)
         {
+            Contract.Requires(gameController != null);
+            Contract.Requires(gameController.EntityListWrapper != null);
             GameController = gameController;
             Graphics = graphics;
             Settings = settings;
@@ -55,6 +58,7 @@ namespace PoeHUD.Hud
 
         protected static IEnumerable<string[]> LoadConfigBase(string path, int columnsCount = 2)
         {
+            Contract.Requires(!string.IsNullOrEmpty(path));
             return File.ReadAllLines(path)
                 .Where(line => !string.IsNullOrWhiteSpace(line) && line.IndexOf(';') >= 0 && !line.StartsWith("#"))
                 .Select(line => line.Split(new[] {';'}, columnsCount).Select(parts => parts.Trim()).ToArray());
@@ -69,6 +73,7 @@ namespace PoeHUD.Hud
         /// <returns></returns>
         protected static Dictionary<string, List<string>> LoadConfigList(string path)
         {
+            Contract.Requires(!string.IsNullOrEmpty(path));
             var result = new Dictionary<string, List<string>>();
                 
             string[] lines = File.ReadAllLines(path);

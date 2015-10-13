@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Controllers;
@@ -27,6 +28,7 @@ namespace PoeHUD.Hud.Preload
         public PreloadAlertPlugin(GameController gameController, Graphics graphics, PreloadAlertSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             alerts = new HashSet<PreloadAlerConfigLine>();
             alertStrings = LoadConfig("config/preload_alerts.txt");
             GameController.Area.OnAreaChange += OnAreaChange;

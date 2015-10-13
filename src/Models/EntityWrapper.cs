@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using PoeHUD.Controllers;
 using PoeHUD.Framework;
@@ -19,9 +20,10 @@ namespace PoeHUD.Models
         private readonly Entity internalEntity;
         public bool IsInList = true;
 
-        public EntityWrapper(GameController Poe, Entity entity)
+        public EntityWrapper(GameController gameController, Entity entity)
         {
-            gameController = Poe;
+            Contract.Requires(entity != null);
+            this.gameController = gameController;
             internalEntity = entity;
             components = internalEntity.GetComponents();
             Path = internalEntity.Path;
@@ -29,8 +31,10 @@ namespace PoeHUD.Models
             LongId = internalEntity.LongId;
         }
 
-        public EntityWrapper(GameController Poe, int address) : this(Poe, Poe.Game.GetObject<Entity>(address))
+        public EntityWrapper(GameController gameController, int address) : this(gameController, gameController.Game.GetObject<Entity>(address))
         {
+            Contract.Requires(gameController != null);
+            Contract.Requires(gameController.Game != null);
         }
 
         public string Path { get; private set; }

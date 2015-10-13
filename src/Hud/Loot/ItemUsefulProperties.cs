@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 
 using PoeHUD.Models.Enums;
@@ -40,6 +41,8 @@ namespace PoeHUD.Hud.Loot
 
         public bool ShouldAlert(HashSet<string> currencyNames, ItemAlertSettings settings)
         {
+            Contract.Requires(settings != null);
+            Contract.Requires(settings.Maps != null);
             Mods mods = _item.GetComponent<Mods>();
             QualityItemsSettings qualitySettings = settings.QualityItems;
 

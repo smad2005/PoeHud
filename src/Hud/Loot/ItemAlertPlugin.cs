@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,6 +44,8 @@ namespace PoeHUD.Hud.Loot
         public ItemAlertPlugin(GameController gameController, Graphics graphics, ItemAlertSettings settings)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
+            Contract.Requires(settings.FilePath != null);
             playedSoundsCache = new HashSet<long>();
             currentAlerts = new Dictionary<EntityWrapper, AlertDrawStyle>();
             currentLabels = new Dictionary<int, ItemsOnGroundLabelElement>();

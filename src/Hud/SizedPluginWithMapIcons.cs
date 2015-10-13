@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 using PoeHUD.Hud.Interfaces;
 using PoeHUD.Hud.Settings;
@@ -13,7 +13,10 @@ namespace PoeHUD.Hud
         where TSettings : SettingsBase
     {
         protected SizedPluginWithMapIcons(GameController gameController, Graphics graphics, TSettings settings)
-            : base(gameController, graphics, settings) {}
+            : base(gameController, graphics, settings)
+        {
+            Contract.Requires(gameController != null);
+        }
 
         public Size2F Size { get; protected set; }
 

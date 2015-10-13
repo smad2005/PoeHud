@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -28,6 +29,8 @@ namespace PoeHUD.Hud.Menu
         public MenuPlugin(GameController gameController, Graphics graphics, SettingsHub settingsHub)
             : base(gameController, graphics, settingsHub.MenuSettings)
         {
+            Contract.Requires(gameController != null);
+            Contract.Requires(settingsHub != null);
             this.settingsHub = settingsHub;
             CreateMenu();
             MouseHook.MouseDown += onMouseDown = info => info.Handled = OnMouseEvent(MouseEventID.LeftButtonDown, info.Position);

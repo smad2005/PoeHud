@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using PoeHUD.Models;
 using PoeHUD.Models.Enums;
 using PoeHUD.Poe.Components;
@@ -10,6 +11,7 @@ namespace PoeHUD.Hud.Health
 
         public HealthBar(EntityWrapper entity, HealthBarSettings settings)
         {
+            Contract.Requires(entity != null);
             Entity = entity;
             if (entity.HasComponent<Player>())
             {

@@ -1,4 +1,6 @@
-﻿namespace PoeHUD.Hud.Settings
+﻿using System.Diagnostics.Contracts;
+
+namespace PoeHUD.Hud.Settings
 {
     public sealed class RangeNode<T> where T : struct
     {
@@ -19,6 +21,7 @@
 
         public static implicit operator T(RangeNode<T> node)
         {
+            Contract.Requires(node != null);
             return node.Value;
         }
     }

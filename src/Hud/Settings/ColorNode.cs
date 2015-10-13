@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using System.Diagnostics.Contracts;
+using SharpDX;
 
 namespace PoeHUD.Hud.Settings
 {
@@ -20,6 +21,7 @@ namespace PoeHUD.Hud.Settings
 
         public static implicit operator Color(ColorNode node)
         {
+            Contract.Requires(node != null);
             return node.Value;
         }
 

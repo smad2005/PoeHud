@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using PoeHUD.Framework;
 
@@ -73,6 +74,7 @@ namespace PoeHUD.Poe.UI
 
         protected List<T> GetChildren<T> () where T: Element,new()
         {
+            Contract.Requires(M != null);
             const int listOffset = 0x10 + OffsetBuffers;
             var list = new List<T>();
             if (M.ReadInt(Address + listOffset + 4) == 0 || M.ReadInt(Address + listOffset) == 0 ||
@@ -130,6 +132,7 @@ namespace PoeHUD.Poe.UI
 
         public Element GetChildFromIndices(params int[] indices)
         {
+            Contract.Requires(indices != null);
             Element poe_UIElement = this;
             for (int i = 0; i < indices.Length; i++)
             {

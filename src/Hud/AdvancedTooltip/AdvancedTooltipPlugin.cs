@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -37,6 +38,7 @@ namespace PoeHUD.Hud.AdvancedTooltip
         public AdvancedTooltipPlugin(GameController gameController, Graphics graphics, AdvancedTooltipSettings settings, SettingsHub settingsHub)
             : base(gameController, graphics, settings)
         {
+            Contract.Requires(gameController != null);
             this.settingsHub = settingsHub;
         }
 

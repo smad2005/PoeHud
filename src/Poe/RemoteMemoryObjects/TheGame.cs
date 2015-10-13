@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 
 namespace PoeHUD.Poe.RemoteMemoryObjects
@@ -6,6 +7,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
     {
         public TheGame(Memory m)
         {
+            Contract.Requires(m != null);
             M = m;
             Address = m.ReadInt(m.AddressOfProcess + Offsets.Base, new[] {4, 124});
             Game = this;

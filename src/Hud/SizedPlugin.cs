@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Controllers;
 using PoeHUD.Hud.Interfaces;
 using PoeHUD.Hud.Settings;
@@ -12,7 +12,10 @@ namespace PoeHUD.Hud
     public abstract class SizedPlugin<TSettings> : Plugin<TSettings>, IPanelChild where TSettings : SettingsBase
     {
         protected SizedPlugin(GameController gameController, Graphics graphics, TSettings settings)
-            : base(gameController, graphics, settings) {}
+            : base(gameController, graphics, settings)
+        {
+            Contract.Requires(gameController != null);
+        }
 
         public Size2F Size { get; set; }
 
@@ -25,5 +28,6 @@ namespace PoeHUD.Hud
             Size = new Size2F();
             Margin = new Vector2(0, 0);
         }
+       
     }
 }

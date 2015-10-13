@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework;
 using PoeHUD.Models;
 
@@ -16,6 +17,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
         public BaseItemType Translate(string metadata)
         {
+            Contract.Requires(metadata != null);
             if (!contents.ContainsKey(metadata))
             {
                 LoadItemTypes();

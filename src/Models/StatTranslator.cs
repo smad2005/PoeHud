@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using PoeHUD.Models.Enums;
 using PoeHUD.Poe.RemoteMemoryObjects;
 
@@ -84,6 +85,8 @@ namespace PoeHUD.Models
 
         public void Translate(ItemStats stats, ItemMod m)
         {
+            Contract.Requires(m != null);
+            Contract.Requires(m.Name != null);
             if (!mods.ContainsKey(m.Name))
             {
                 return;
