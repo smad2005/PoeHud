@@ -12,7 +12,7 @@ namespace PoeHUD.Poe.FilesInMemory
         {
             get
             {
-                Contract.Ensures(string.IsNullOrEmpty(Contract.Result<string>()));
+                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
                 return contents?[index] ?? LoadItemTypes()[index];
             }
         }

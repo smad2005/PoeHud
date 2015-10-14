@@ -15,7 +15,7 @@ namespace PoeHUD.Controllers
 			Root = gameController;
 		}
 
-		public event Action<AreaController> OnAreaChange; // TODO rename to AreaChanging
+		public event Action<AreaController> OnAreaChange; 
 
 		public AreaInstance CurrentArea { get; private set; }
         

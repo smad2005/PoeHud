@@ -136,7 +136,7 @@ namespace PoeHUD.Framework
                 return string.Empty;
             }
             byte[] mem = ReadMem(addr, length);
-            if (mem[0] == 0 && mem[1] == 0)
+            if (mem.Take(2).All(val => val == 0))
                 return string.Empty;
             string @string = Encoding.Unicode.GetString(mem);
             if (replaceNull)
@@ -172,6 +172,7 @@ namespace PoeHUD.Framework
 
         private byte[] ReadMem(int addr, int size)
         {
+            Contract.Requires(size > 0);
             var array = new byte[size];
             WinApi.ReadProcessMemory(procHandle, (IntPtr)addr, array);
             return array;
@@ -184,6 +185,7 @@ namespace PoeHUD.Framework
         public int[] FindPatterns(params Pattern[] patterns)
         {
             Contract.Requires(patterns != null);
+            Contract.Ensures(Contract.Result<int[]>().Length == patterns.Length);
             byte[] exeImage = ReadBytes(AddressOfProcess, 0x2000000); //33mb
             var address = new int[patterns.Length];
 

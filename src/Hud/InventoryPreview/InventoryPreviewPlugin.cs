@@ -41,7 +41,7 @@ namespace PoeHUD.Hud.InventoryPreview
 
         public override void Render()
         {
-            Contract.Requires(cells != null);
+
             if (!Settings.Enable)
             {
                 return;
@@ -139,8 +139,7 @@ namespace PoeHUD.Hud.InventoryPreview
             var inventoryItemIcon = uiHover.AsObject<InventoryItemIcon>();
             if (inventoryItemIcon.ToolTipType == ToolTipType.ItemOnGround)
             {
-                //bug CodeContracts: Possibly calling a method on a null reference. Do you expect that PoeHUD.Poe.UI.Element.GetChildAtIndex(System.Int32) returns non-null?
-                RectangleF itemElementRectangle = inventoryItemIcon.Tooltip.GetChildAtIndex(0).GetChildAtIndex(0).GetClientRect();
+                RectangleF itemElementRectangle = inventoryItemIcon.Tooltip.GetChildAtIndex(0)?.GetChildAtIndex(0)?.GetClientRect() ?? new RectangleF();
                 var item = inventoryItemIcon.Item;
                 var inventoryZone = GetInventoryZone();
                 RectangleF inventoryZoneRectangle = inventoryZone.GetClientRect();

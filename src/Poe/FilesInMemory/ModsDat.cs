@@ -19,7 +19,7 @@ namespace PoeHUD.Poe.FilesInMemory
         public Dictionary<string, ModRecord> records =
             new Dictionary<string, ModRecord>(StringComparer.OrdinalIgnoreCase);
 
-        public Dictionary<Tuple<string, ModType>, List<ModRecord>> recordsByTier =
+        public readonly Dictionary<Tuple<string, ModType>, List<ModRecord>> RecordsByTier =
             new Dictionary<Tuple<string, ModType>, List<ModRecord>>();
 
         public ModsDat(Memory m, int address, StatsDat sDat, TagsDat tagsDat) : base(m, address)
@@ -43,16 +43,16 @@ namespace PoeHUD.Poe.FilesInMemory
 
                 Tuple<string, ModType> byTierKey = Tuple.Create(r.Group, r.AffixType);
                 List<ModRecord> groupMembers;
-                //bug CodeContracts: Possibly calling a method on a null reference 'groupMembers'
-                if (!recordsByTier.TryGetValue(byTierKey, out groupMembers))
+                
+                if (!RecordsByTier.TryGetValue(byTierKey, out groupMembers))
                 {
                     groupMembers = new List<ModRecord>();
-                    recordsByTier[byTierKey] = groupMembers;
+                    RecordsByTier[byTierKey] = groupMembers;
                 }
                 groupMembers.Add(r);
             }
 
-            foreach (var list in recordsByTier.Values)
+            foreach (var list in RecordsByTier.Values)
             {
                 list.Sort(ModRecord.ByLevelComparer);
             }

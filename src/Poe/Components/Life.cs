@@ -126,7 +126,7 @@ namespace PoeHUD.Poe.Components
 
         public bool CorpseUsable
         {
-            get { return M.ReadBytes(Address + 212, 1).FirstOrDefault() == 1; }
+            get { return M.ReadByte(Address + 212) == 1; }
         }
 
         public List<Buff> Buffs

@@ -19,9 +19,8 @@ namespace PoeHUD.Hud.AdvancedTooltip
         {
             Contract.Requires(mod != null);
             Contract.Requires(fs != null);
-            //Contract.Assume(fs.Mods != null);
             Contract.Requires(fs.Mods.records != null);
-            Contract.Requires(fs.Mods.recordsByTier != null);
+            Contract.Requires(fs.Mods.RecordsByTier != null);
             string name = mod.RawName;
             Record = fs.Mods.records[name];
             AffixType = Record.AffixType;
@@ -33,7 +32,7 @@ namespace PoeHUD.Hud.AdvancedTooltip
             int subOptimalTierDistance = 0;
 
             List<ModsDat.ModRecord> allTiers;
-            if (fs.Mods.recordsByTier.TryGetValue(Tuple.Create(Record.Group, Record.AffixType), out allTiers))
+            if (fs.Mods.RecordsByTier.TryGetValue(Tuple.Create(Record.Group, Record.AffixType), out allTiers))
             {
                 IEnumerable<string> validTags = Record.Tags.Select(t => t.Key)
                     .Where((t, tIdx) => Record.TagChances
@@ -49,8 +48,7 @@ namespace PoeHUD.Hud.AdvancedTooltip
                     {
                         continue;
                     }
-                    if (record.StatNames[0] == Record.StatNames[0] && record.StatNames[1] == Record.StatNames[1]
-                        && record.StatNames[2] == Record.StatNames[2] && record.StatNames[3] == Record.StatNames[3])
+                    if (record.StatNames.SequenceEqual(Record.StatNames))
                     {
                         totalTiers++;
                         if (record.Equals(Record))

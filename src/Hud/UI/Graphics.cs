@@ -36,7 +36,6 @@ namespace PoeHUD.Hud.UI
 
         public Graphics(RenderForm form, int width, int height)
         {
-            Contract.Requires(form != null);
             reset = () => form.Invoke(new Action(() =>
             {
                 device.Reset(presentParameters);

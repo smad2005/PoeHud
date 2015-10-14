@@ -19,7 +19,7 @@ namespace PoeHUD.Models.Interfaces.Contracts
         public int Address { get; }
         public bool HasComponent<T>() where T : Component, new()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public T GetComponent<T>() where T : Component, new()

@@ -14,7 +14,7 @@ namespace PoeHUD.Poe.Elements
         {
             toolTipOnground = () => Game.IngameState.IngameUi.ItemOnGroundTooltip;
             inventoryItemTooltip = () => ReadObject<Element>(Address + 0x80C);
-            itemInChatTooltip = () => ReadObject<Element>(Address + 0x808); //bug wrong
+            itemInChatTooltip = () => ReadObject<Element>(Address + 0x808); //bug wrong offset
         }
 
         public ToolTipType ToolTipType

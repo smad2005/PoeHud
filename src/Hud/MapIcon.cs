@@ -70,8 +70,7 @@ namespace PoeHUD.Hud
 
         public virtual bool IsEntityStillValid()
         {
-            Contract.Requires(EntityWrapper != null);
-            return EntityWrapper.IsValid;
+           return EntityWrapper.IsValid;
         }
 
         public virtual bool IsVisible()
@@ -82,6 +81,7 @@ namespace PoeHUD.Hud
         [ContractInvariantMethod]
         void InvariantTest()
         {
+            Contract.Invariant(EntityWrapper != null);
             Contract.Invariant(TextureIcon !=null);
         }
 

@@ -8,7 +8,7 @@ using PoeHUD.Framework;
 using PoeHUD.Hud;
 using PoeHUD.Poe;
 using System.IO;
-
+using Newtonsoft.Json.Serialization;
 using Tools;
 
 namespace PoeHUD
@@ -44,15 +44,16 @@ namespace PoeHUD
 	    [STAThread]
 		public static void Main(string[] args)
 		{
+#if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += (sender, exceptionArgs) =>
             {
                 var errorText = "Program exited with message:\n " + exceptionArgs.ExceptionObject;
                 File.AppendAllText("Error.log", string.Format("{0} {1}\r\n{2}\r\n",DateTime.Now.ToString("g") , errorText, new string('-', 30)));
                 MessageBox.Show(errorText);
+                
                 Environment.Exit(1);
             };
 
-#if !DEBUG
             MemoryControl.Start();
             if (Scrambler.Scramble(args.Length > 0 ? args[0] : null))
 	        {

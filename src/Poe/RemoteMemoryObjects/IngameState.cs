@@ -44,11 +44,6 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
             get { return base.ReadObjectAt<Element>(0xC24 + Offsets.IgsOffset); }
         }
 
-        public int EntityLabelMap
-        {
-            get { return M.ReadInt(Address + 68, 2528); } //todo deprecated maybe need to remove
-        }
-
 
         public DiagnosticInfoType DiagnosticInfoType
         {
