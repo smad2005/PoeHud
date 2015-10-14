@@ -30,6 +30,12 @@ namespace PoeHUD.Controllers
             Mods = new ModsDat(mem, FindFile("Data/Mods.dat"), Stats, Tags);
         }
 
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(BaseItemTypes != null);
+        }
+
         public int FindFile(string name)
         {
             Contract.Requires(name != null);

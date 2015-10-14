@@ -381,6 +381,12 @@ namespace PoeHUD.Hud.Loot
             return new ItemUsefulProperties(name, item, craftingBase);
         }
 
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(craftingBases != null);
+        }
+
         private string GetItemName(KeyValuePair<EntityWrapper, AlertDrawStyle> kv)
         {
             Entity itemEntity = kv.Key.GetComponent<WorldItem>().ItemEntity;
