@@ -37,6 +37,7 @@ namespace PoeHUD.Hud.Preload
 
         public Dictionary<string, PreloadAlerConfigLine> LoadConfig(string path)
         {
+            Contract.Requires(!string.IsNullOrEmpty(path));
             return LoadConfigBase(path, 3).ToDictionary(line => line[0], line =>
             {
                 var preloadAlerConfigLine = new PreloadAlerConfigLine { Text = line[1], Color = line.ConfigColorValueExtractor(2)};

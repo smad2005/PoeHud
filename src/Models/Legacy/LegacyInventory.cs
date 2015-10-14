@@ -42,9 +42,9 @@ namespace PoeHUD.Models.Legacy
 			InternalInventory = internalInventory;
 		}
 		public LegacyInventory(GameController poe, int address) : this(poe, poe.Game.GetObject<Poe.RemoteMemoryObjects.Inventory>(address))
-		{
+        {
             Contract.Requires(poe != null);
-            Contract.Requires(poe.Game != null);
+		    Contract.Requires(poe.Game != null);
         }
-	}
+    }
 }

@@ -18,6 +18,7 @@ namespace PoeHUD.Poe.FilesInMemory
         public BaseItemType Translate(string metadata)
         {
             Contract.Requires(metadata != null);
+            Contract.Ensures(Contract.Result<BaseItemType>()!=null);
             if (!contents.ContainsKey(metadata))
             {
                 LoadItemTypes();
@@ -25,7 +26,7 @@ namespace PoeHUD.Poe.FilesInMemory
             if (!contents.ContainsKey(metadata))
             {
                 Console.WriteLine("Key not found in BaseItemTypes: " + metadata);
-                return null;
+                throw new Exception("BaseItemTypes isn't loaded"); 
             }
             return contents[metadata];
         }
@@ -49,5 +50,12 @@ namespace PoeHUD.Poe.FilesInMemory
                 }
             }
         }
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(contents != null);
+        }
+
     }
 }

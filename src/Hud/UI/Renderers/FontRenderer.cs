@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Diagnostics.Contracts;
 using PoeHUD.Framework.Helpers;
 
 using SharpDX;
@@ -75,6 +75,7 @@ namespace PoeHUD.Hud.UI.Renderers
 
         private Font GetFont(string name, int height)
         {
+            Contract.Ensures(Contract.Result<Font>()!=null);
             lock (fonts)
             {
                 Font font;

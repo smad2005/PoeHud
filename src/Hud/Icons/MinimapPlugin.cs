@@ -51,7 +51,7 @@ namespace PoeHUD.Hud.Icons
                 Vector2 point = mapCenter
                     + MapIcon.DeltaInWorldToMinimapDelta(icon.WorldPosition - playerPos, diag, SCALE, (iconZ - posZ) / 20);
 
-                HudTexture texture = icon.MinimapIcon;
+                HudTexture texture = icon.TextureIcon;
                 int size = icon.Size;
                 var rect = new RectangleF(point.X - size / 2f, point.Y - size / 2f, size, size);
                 bool isContain;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Globalization;
 using SharpDX;
 
@@ -43,6 +44,7 @@ namespace PoeHUD.Framework.Helpers
 
         private static bool IsNotNull(string[] line, int index)
         {
+            Contract.Requires(line!=null);
             return line.Length > index && !string.IsNullOrEmpty(line[index]);
         }
     }

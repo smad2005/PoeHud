@@ -1,7 +1,10 @@
+using System.Diagnostics.Contracts;
+using PoeHUD.Models.Interfaces.Contracts;
 using PoeHUD.Poe;
 
 namespace PoeHUD.Models.Interfaces
 {
+    [ContractClass(typeof(Contract4IEntity))]
     public interface IEntity
     {
         string Path { get; }

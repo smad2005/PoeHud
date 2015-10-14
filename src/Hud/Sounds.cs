@@ -32,6 +32,7 @@ namespace PoeHUD.Hud
         public static SoundPlayer GetSound(string name)
         {
             Contract.Requires(name != null);
+            Contract.Ensures(Contract.Result<SoundPlayer>()!=null);
             return soundLib[name];
         }
 

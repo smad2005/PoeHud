@@ -108,5 +108,12 @@ namespace PoeHUD.Hud.Menu
         {
             return Bounds.Contains(pos);
         }
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(Children != null);
+        }
+
     }
 }

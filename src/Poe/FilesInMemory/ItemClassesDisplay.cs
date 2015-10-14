@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.Windows.Forms;
 
 namespace PoeHUD.Poe.FilesInMemory
 {
@@ -6,8 +8,14 @@ namespace PoeHUD.Poe.FilesInMemory
     {
         private List<string> contents;
 
-        public string this[int index] => contents?[index] ?? LoadItemTypes()[index];
-
+        public string this[int index]
+        {
+            get
+            {
+                Contract.Ensures(string.IsNullOrEmpty(Contract.Result<string>()));
+                return contents?[index] ?? LoadItemTypes()[index];
+            }
+        }
         private List<string> LoadItemTypes()
         {
             contents = new List<string>

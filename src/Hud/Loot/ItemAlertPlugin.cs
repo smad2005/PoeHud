@@ -45,6 +45,7 @@ namespace PoeHUD.Hud.Loot
             : base(gameController, graphics, settings)
         {
             Contract.Requires(gameController != null);
+            Contract.Requires(settings != null);
             Contract.Requires(settings.FilePath != null);
             playedSoundsCache = new HashSet<long>();
             currentAlerts = new Dictionary<EntityWrapper, AlertDrawStyle>();
@@ -363,6 +364,9 @@ namespace PoeHUD.Hud.Loot
 
         private ItemUsefulProperties GetItemUsefulProperties(IEntity item)
         {
+            Contract.Requires(item != null);
+            Contract.Ensures(Contract.Result<ItemUsefulProperties>() != null);
+            
             string name = GameController.Files.BaseItemTypes.Translate(item.Path).BaseName;
 
             CraftingBase craftingBase = new CraftingBase();
@@ -370,7 +374,6 @@ namespace PoeHUD.Hud.Loot
             {
                 craftingBases.TryGetValue(name, out craftingBase);
             }
-
             return new ItemUsefulProperties(name, item, craftingBase);
         }
 

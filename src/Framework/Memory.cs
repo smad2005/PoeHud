@@ -49,17 +49,6 @@ namespace PoeHUD.Framework
             Close();
         }
 
-        public int GetModule(string name)
-        {
-            Contract.Requires(name != null);
-            if (modules.ContainsKey(name))
-            {
-                return modules[name];
-            }
-            int num = Process.Modules.Cast<ProcessModule>().First(m => m.ModuleName == name).BaseAddress.ToInt32();
-            modules.Add(name, num);
-            return num;
-        }
 
         public bool IsInvalid()
         {
@@ -221,6 +210,7 @@ namespace PoeHUD.Framework
    
         private bool CompareData(Pattern pattern, byte[] data, int offset)
         {
+            Contract.Requires(data != null);
             for (int i = 0; i < pattern.Bytes.Length; i++)
             {
                 if (pattern.Mask[i] == 'x' && pattern.Bytes[i] != data[offset + i])

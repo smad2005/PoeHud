@@ -65,5 +65,13 @@ namespace PoeHUD.Hud.Health
         {
             return !isHostile ? Settings.Enable.Value : Settings.Enable && showEnemy && isHostile;
         }
+
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(Settings != null);
+        }
+
     }
 }

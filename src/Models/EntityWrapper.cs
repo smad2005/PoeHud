@@ -34,7 +34,6 @@ namespace PoeHUD.Models
         public EntityWrapper(GameController gameController, int address) : this(gameController, gameController.Game.GetObject<Entity>(address))
         {
             Contract.Requires(gameController != null);
-            Contract.Requires(gameController.Game != null);
         }
 
         public string Path { get; private set; }
@@ -118,6 +117,13 @@ namespace PoeHUD.Models
         public override string ToString()
         {
             return "EntityWrapper: " + Path;
+        }
+
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(Path != null);
         }
     }
 }

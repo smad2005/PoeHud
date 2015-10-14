@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using PoeHUD.Poe.RemoteMemoryObjects;
 
 namespace PoeHUD.Poe.Components
@@ -125,7 +126,7 @@ namespace PoeHUD.Poe.Components
 
         public bool CorpseUsable
         {
-            get { return M.ReadBytes(Address + 212, 1)[0] == 1; }
+            get { return M.ReadBytes(Address + 212, 1).FirstOrDefault() == 1; }
         }
 
         public List<Buff> Buffs

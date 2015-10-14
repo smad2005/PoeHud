@@ -34,12 +34,14 @@ namespace PoeHUD.Hud.InventoryPreview
             : base(gameController, graphics, settings)
         {
             Contract.Requires(gameController != null);
-            MouseHook.MouseDown += onMouseDown =  info => info.Handled = OnMouseEvent(info);
+            MouseHook.MouseDown += onMouseDown = info => info.Handled = OnMouseEvent(info);
             cells = new CellData[CELLS_Y_COUNT, CELLS_X_COUNT];
         }
 
+
         public override void Render()
         {
+            Contract.Requires(cells != null);
             if (!Settings.Enable)
             {
                 return;
@@ -137,7 +139,8 @@ namespace PoeHUD.Hud.InventoryPreview
             var inventoryItemIcon = uiHover.AsObject<InventoryItemIcon>();
             if (inventoryItemIcon.ToolTipType == ToolTipType.ItemOnGround)
             {
-                 RectangleF itemElementRectangle  = inventoryItemIcon.Tooltip.GetChildAtIndex(0).GetChildAtIndex(0).GetClientRect();
+                //bug CodeContracts: Possibly calling a method on a null reference. Do you expect that PoeHUD.Poe.UI.Element.GetChildAtIndex(System.Int32) returns non-null?
+                RectangleF itemElementRectangle = inventoryItemIcon.Tooltip.GetChildAtIndex(0).GetChildAtIndex(0).GetClientRect();
                 var item = inventoryItemIcon.Item;
                 var inventoryZone = GetInventoryZone();
                 RectangleF inventoryZoneRectangle = inventoryZone.GetClientRect();

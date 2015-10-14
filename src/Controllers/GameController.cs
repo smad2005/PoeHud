@@ -33,7 +33,6 @@ namespace PoeHUD.Controllers
         {
             get
             {
-                Contract.Requires(EntityListWrapper != null);
                 return EntityListWrapper.Entities;
             }
         }

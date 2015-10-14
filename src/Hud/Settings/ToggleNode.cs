@@ -38,6 +38,7 @@ namespace PoeHUD.Hud.Settings
 
         public static implicit operator ToggleNode(bool value)
         {
+            Contract.Ensures(Contract.Result<ToggleNode>() != null);
             return new ToggleNode(value);
         }
     }

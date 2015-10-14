@@ -42,6 +42,7 @@ namespace PoeHUD.Framework.Helpers
         public static float Max(params float[] values)
         {
             Contract.Requires(values != null);
+            Contract.Requires(values.Length > 0);
             float max = values.First();
             for (int i = 1; i < values.Length; i++)
             {

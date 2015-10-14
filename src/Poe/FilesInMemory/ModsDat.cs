@@ -43,6 +43,7 @@ namespace PoeHUD.Poe.FilesInMemory
 
                 Tuple<string, ModType> byTierKey = Tuple.Create(r.Group, r.AffixType);
                 List<ModRecord> groupMembers;
+                //bug CodeContracts: Possibly calling a method on a null reference 'groupMembers'
                 if (!recordsByTier.TryGetValue(byTierKey, out groupMembers))
                 {
                     groupMembers = new List<ModRecord>();
@@ -77,6 +78,8 @@ namespace PoeHUD.Poe.FilesInMemory
             public ModRecord(Memory m, StatsDat sDat, TagsDat tagsDat, int addr)
             {
                 Contract.Requires(m != null);
+                Contract.Requires(sDat != null);
+                Contract.Requires(tagsDat != null);
                 Key = m.ReadStringU(m.ReadInt(addr + 0));
                 Unknown4 = m.ReadInt(addr + 4);
                 MinLevel = m.ReadInt(addr + 0x10);
@@ -99,7 +102,7 @@ namespace PoeHUD.Poe.FilesInMemory
                 
                 Domain = m.ReadInt(addr + 0x34);
                 UserFriendlyName = m.ReadStringU(m.ReadInt(addr + 0x38));
-                AffixType = (ModType) m.ReadInt(addr + 0x3C);
+                AffixType = (ModType) m.ReadInt(addr + 0x3C); //bug  CodeContracts: The assigned value may not be in the range defined for this enum value
                 Group = m.ReadStringU(m.ReadInt(addr + 0x40));
 
                 StatRange = new[]
@@ -110,7 +113,7 @@ namespace PoeHUD.Poe.FilesInMemory
                     new IntRange(m.ReadInt(addr + 0x5C), m.ReadInt(addr + 0x60))
                 };
 
-                Tags = new TagsDat.TagRecord[m.ReadInt(addr + 0x64)];
+                Tags = new TagsDat.TagRecord[m.ReadInt(addr + 0x64)]; //bug CodeContracts: The length of the array may be negative
                 int ta = m.ReadInt(addr + 0x68);
                 for (int i = 0; i < Tags.Length; i++)
                 {
@@ -118,7 +121,7 @@ namespace PoeHUD.Poe.FilesInMemory
                     Tags[i] = tagsDat.records[m.ReadStringU(m.ReadInt(ii, 0), 255)];
                 }
 
-                TagChances = new int[m.ReadInt(addr + 0x6C)];
+                TagChances = new int[m.ReadInt(addr + 0x6C)]; //bug CodeContracts: The length of the array may be negative
                 int tc = m.ReadInt(addr + 0x70);
                 for (int i = 0; i < Tags.Length; i++)
                     TagChances[i] = m.ReadInt(tc + 4*i);

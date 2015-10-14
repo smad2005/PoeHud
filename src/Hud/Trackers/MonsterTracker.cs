@@ -51,6 +51,7 @@ namespace PoeHUD.Hud.Trackers
 
         public Dictionary<string, MonsterConfigLine> LoadConfig(string path)
         {
+            Contract.Requires(!string.IsNullOrEmpty(path));
             return LoadConfigBase(path, 5).ToDictionary(line => line[0], line =>
              {
                  var monsterConfigLine = new MonsterConfigLine { Text = line[1], SoundFile = line.ConfigValueExtractor(2), Color =line.ConfigColorValueExtractor(3), MinimapIcon = line.ConfigValueExtractor(4)};

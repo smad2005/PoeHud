@@ -16,6 +16,7 @@ namespace PoeHUD.Poe
             get
             {
                 Contract.Requires(M != null);
+                Contract.Ensures(Contract.Result<Offsets>() != null);
                 return M.offsets;
             }
         }

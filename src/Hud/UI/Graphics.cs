@@ -65,6 +65,14 @@ namespace PoeHUD.Hud.UI
             renderLocker.Reset();
         }
 
+
+        [ContractInvariantMethod]
+        void InvariantTest()
+        {
+            Contract.Invariant(fontRenderer != null);
+            Contract.Invariant(renderLocker != null);
+        }
+
         public event Action Render;
 
         public void RenderLoop()
