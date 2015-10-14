@@ -34,7 +34,7 @@ namespace PoeHUD.Hud.Loot
 
         private readonly Dictionary<EntityWrapper, AlertDrawStyle> currentAlerts;
 
-        private readonly Dictionary<string, CraftingBase> craftingBases;
+        private readonly HashSet<CraftingBase> craftingBases;
 
         private readonly HashSet<string> currencyNames;
 
@@ -56,8 +56,6 @@ namespace PoeHUD.Hud.Loot
             GameController.Area.OnAreaChange += OnAreaChange;
             PoeFilterInit(settings.FilePath);
             settings.FilePath.OnFileChanged += () => PoeFilterInit(settings.FilePath);
-
-
         }
 
         private void PoeFilterInit(string path)
@@ -141,10 +139,11 @@ namespace PoeHUD.Hud.Loot
                         shouldUpdate = true;
                     }
                     else
+                    {
                         if (Settings.ShowText & (!Settings.HideOthers | entityLabel.CanPickUp))
-                        {
                             position = DrawText(playerPos, position, BOTTOM_MARGIN, kv, text);
-                        }
+                    }
+
                 }
                 Size = new Size2F(0, position.Y); //bug absent width
 
@@ -214,13 +213,13 @@ namespace PoeHUD.Hud.Loot
             currentLabels.Remove(entity.Address);
         }
 
-        private static Dictionary<string, CraftingBase> LoadCraftingBases()
+        private static HashSet<CraftingBase> LoadCraftingBases()
         {
             if (!File.Exists("config/crafting_bases.txt"))
             {
-                return new Dictionary<string, CraftingBase>();
+                return new HashSet<CraftingBase>();
             }
-            var dictionary = new Dictionary<string, CraftingBase>(StringComparer.OrdinalIgnoreCase);
+            var hashSet = new HashSet<CraftingBase>();
             var parseErrors = new List<string>();
             string[] array = File.ReadAllLines("config/crafting_bases.txt");
             foreach (string text in array.Select(x => x.Trim()).Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith("#")))
@@ -255,14 +254,11 @@ namespace PoeHUD.Hud.Loot
                     }
                 }
 
-                if (!dictionary.ContainsKey(itemName))
-                {
-                    dictionary.Add(itemName, item);
-                }
-                else
+                if (!hashSet.Add(item))
                 {
                     parseErrors.Add("Duplicate definition for item was ignored: " + text);
                 }
+
             }
 
             if (parseErrors.Any())
@@ -270,7 +266,7 @@ namespace PoeHUD.Hud.Loot
                 throw new Exception("Error parsing config/crafting_bases.txt\r\n" + string.Join(Environment.NewLine, parseErrors));
             }
 
-            return dictionary;
+            return hashSet;
         }
 
         private static HashSet<string> LoadCurrency()
@@ -367,18 +363,17 @@ namespace PoeHUD.Hud.Loot
         {
             Contract.Requires(item != null);
             Contract.Ensures(Contract.Result<ItemUsefulProperties>() != null);
-            
-            string name = GameController.Files.BaseItemTypes.Translate(item.Path).BaseName;
 
+            string name = GameController.Files.BaseItemTypes.Translate(item.Path).BaseName;
             CraftingBase craftingBase = new CraftingBase();
             if (Settings.Crafting)
             {
-                foreach (KeyValuePair<string, CraftingBase> cb in craftingBases)
+                foreach (CraftingBase cb in craftingBases)
                 {
-                    if (cb.Key.Equals(name)
-                        || (new Regex(cb.Value.Name)).Match(name).Success)
+                    if (cb.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)
+                        || (new Regex(cb.Name)).Match(name).Success)
                     {
-                        craftingBase = cb.Value;
+                        craftingBase = cb;
                         break;
                     }
                 }
