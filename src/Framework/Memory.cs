@@ -9,6 +9,7 @@ using System.Text;
 using PoeHUD.Framework.Enums;
 using PoeHUD.Models;
 using PoeHUD.Poe;
+using PoeHUD.Poe.Servers;
 
 namespace PoeHUD.Framework
 {
@@ -19,6 +20,7 @@ namespace PoeHUD.Framework
         private bool closed;
         public Offsets offsets;
         private IntPtr procHandle;
+        private IServer server;
 
         public Memory(Offsets offs, int pId)
         {
@@ -35,6 +37,8 @@ namespace PoeHUD.Framework
                 throw new Exception("You should run program as an administrator", ex);
             }
         }
+        
+        public IServer Server => server ?? (server = DetectServer());
 
         public Process Process { get; private set; }
 
@@ -223,6 +227,24 @@ namespace PoeHUD.Framework
                 }
             }
             return true;
+        }
+
+        private IServer DetectServer()
+        {
+            var configIni = offsets.PoeConfigIni;
+            switch (configIni)
+            {
+                case "garena_ru_production_Config.ini":
+                    return new GarenaCisServer();
+                case "garena_tw_production_Config.ini":
+                    return new GarenaTwServer();
+                case "garena_sg_production_Config.ini":
+                    return new GarenaSgServer();
+                case "garena_th_production_Config.ini":
+                    return new GarenaThServer();
+                default:
+                    return new GeneralServer();
+            }
         }
     }
 }

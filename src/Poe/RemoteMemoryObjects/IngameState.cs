@@ -67,10 +67,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public DiagnosticElement FPSRectangle
         {
-            get
-            {
-                return GetObjectAt<DiagnosticElement>(0x1540);
-            }
+            get { return GetObjectAt<DiagnosticElement>(0x1540); }
         }
 
         /// <summary>

@@ -85,7 +85,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element InventoryPanel
         {
-            get { return ReadObjectAt<Element>(0x108); }
+            get { return ReadObjectAt<Element>(0x108 + M.Server.IngameUIElementsOffset); }
         }
 
         public Element StashPanel
@@ -100,7 +100,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element TreePanel
         {
-            get { return ReadObjectAt<Element>(0x11c); }
+            get { return ReadObjectAt<Element>(0x11c + M.Server.IngameUIElementsOffset); }
         }
 
         public Element CharacterPanel
@@ -125,14 +125,14 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Map Map
         {
-            get { return ReadObjectAt<Map>(0x134); }
+            get { return ReadObjectAt<Map>(0x134 + M.Server.IngameUIElementsOffset); }
         }
 
         public IEnumerable<ItemsOnGroundLabelElement> ItemsOnGroundLabels
         {
             get
             {
-                var itemsOnGroundLabelRoot = ReadObjectAt<ItemsOnGroundLabelElement>(0x138);
+                var itemsOnGroundLabelRoot = ReadObjectAt<ItemsOnGroundLabelElement>(0x138 + M.Server.IngameUIElementsOffset);
                 return itemsOnGroundLabelRoot.Children;
             }
         }
@@ -158,12 +158,12 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element OpenLeftPanel
         {
-            get { return ReadObjectAt<Element>(0x16c); }
+            get { return ReadObjectAt<Element>(0x16c + M.Server.IngameUIElementsOffset); }
         }
 
         public Element OpenRightPanel
         {
-            get { return ReadObjectAt<Element>(0x170); }
+            get { return ReadObjectAt<Element>(0x170 + M.Server.IngameUIElementsOffset); }
         }
 
         public Element OpenNpcDialogPanel
@@ -194,12 +194,12 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
 
         public Element GemLvlUpPanel
         {
-            get { return ReadObjectAt<Element>(0x21c); }
+            get { return ReadObjectAt<Element>(0x21c + M.Server.IngameUIElementsOffset); }
         }
 
         public ItemOnGroundTooltip ItemOnGroundTooltip
         {
-            get { return ReadObjectAt<ItemOnGroundTooltip>(0x22c); }
+            get { return ReadObjectAt<ItemOnGroundTooltip>(0x22c + M.Server.IngameUIElementsOffset); }
         }
     }
 }

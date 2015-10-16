@@ -291,6 +291,13 @@
     <Compile Include="Hud\MouseEventID.cs" />
     <Compile Include="Hud\Preload\PreloadAlertPlugin.cs" />
     <Compile Include="Poe\Elements\EntityLabel.cs" />
+    <Compile Include="Poe\Servers\GarenaCisServer.cs" />
+    <Compile Include="Poe\Servers\GarenaServer.cs" />
+    <Compile Include="Poe\Servers\GarenaSgServer.cs" />
+    <Compile Include="Poe\Servers\GarenaThServer.cs" />
+    <Compile Include="Poe\Servers\GarenaTwServer.cs" />
+    <Compile Include="Poe\Servers\GeneralServer.cs" />
+    <Compile Include="Poe\Servers\IServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Hud\Sounds.cs" />
     <Compile Include="Models\Pattern.cs" />
@@ -328,6 +335,7 @@
       <Name>Tools</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>set LIBZ=$(SolutionDir)packages\LibZ.Bootstrap.1.1.0.2\tools\libz.exe

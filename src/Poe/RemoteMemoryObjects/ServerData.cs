@@ -6,7 +6,7 @@ namespace PoeHUD.Poe.RemoteMemoryObjects
         {
             get
             {
-                return M.ReadInt(Address + 0x303C) == 3; 
+                return M.ReadInt(Address + M.Server.IsInGameOffset) == 3; 
             }
         }
 
