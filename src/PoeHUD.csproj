@@ -116,6 +116,7 @@
     <Compile Include="Framework\Helpers\LinqHelper.cs" />
     <Compile Include="Framework\Helpers\MathHepler.cs" />
     <Compile Include="Framework\Helpers\ConvertHelper.cs" />
+    <Compile Include="Framework\Helpers\SoundHelper.cs" />
     <Compile Include="Framework\InputHooks\HookProc.cs" />
     <Compile Include="Framework\InputHooks\KeyInfo.cs" />
     <Compile Include="Framework\InputHooks\MouseInfo.cs" />
