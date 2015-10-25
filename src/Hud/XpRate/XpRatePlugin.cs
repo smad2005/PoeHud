@@ -19,11 +19,13 @@ namespace PoeHUD.Hud.XpRate
 
         private long startXp;
 
+        private double xpPenalty;
+
         public XpRatePlugin(GameController gameController, Graphics graphics, XpRateSettings settings)
             : base(gameController, graphics, settings)
         {
-            Reset();
-            GameController.Area.OnAreaChange += area => Reset();
+            AreaChange();
+            GameController.Area.OnAreaChange += area => AreaChange();
         }
 
         public override void Render()
@@ -49,10 +51,12 @@ namespace PoeHUD.Hud.XpRate
             Vector2 secondLine = position.Translate(0, xpRateSize.Height);
             Size2 xpLeftSize = Graphics.DrawText(timeLeft, fontSize, secondLine, FontDrawFlags.Right);
             Vector2 thirdLine = secondLine.Translate(0, xpLeftSize.Height);
-            string areaName = GameController.Area.CurrentArea.DisplayName;
+            var currentArea = GameController.Area.CurrentArea;
+            var xpPenaltyText = Settings.ShowXpPenalty ? $" & {xpPenalty:P1}" : string.Empty;
+            string areaName = $"{currentArea.Name} ({currentArea.RealLevel}lvl{xpPenaltyText})";
             Size2 areaNameSize = Graphics.DrawText(areaName, fontSize, thirdLine, FontDrawFlags.Right);
 
-            string timer = AreaInstance.GetTimeString(nowTime - GameController.Area.CurrentArea.TimeEntered);
+            string timer = AreaInstance.GetTimeString(nowTime - currentArea.TimeEntered);
             Size2 timerSize = Graphics.MeasureText(timer, fontSize);
 
             float boxWidth = MathHepler.Max(xpRateSize.Width, xpLeftSize.Width, areaNameSize.Width + timerSize.Width + 20) + 15;
@@ -90,11 +94,23 @@ namespace PoeHUD.Hud.XpRate
             }
         }
 
-        private void Reset()
+        private double XpPenalty()
+        {
+            // based on xp penalty formula from http://pathofexile.gamepedia.com/Experience
+            int arenaLevel = GameController.Area.CurrentArea.RealLevel;
+            int characterLevel = GameController.Player.GetComponent<Player>().Level;
+            double safeZone = Math.Floor(Convert.ToDouble(characterLevel) / 16) + 3;
+            double effectiveDifference = Math.Max(Math.Abs(characterLevel - arenaLevel) - safeZone, 0);
+            double xpMultiplier = Math.Max(Math.Pow((characterLevel + 5) / (characterLevel + 5 + Math.Pow(effectiveDifference, 2.5)), 1.5), 0.01);
+            return xpMultiplier;
+        }
+
+        private void AreaChange()
         {
             if (GameController.InGame)
             {
                 startXp = GameController.Player.GetComponent<Player>().XP;
+                xpPenalty = XpPenalty();
             }
 
             startTime = lastTime = DateTime.Now;
