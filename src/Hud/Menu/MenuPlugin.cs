@@ -208,7 +208,9 @@ namespace PoeHUD.Hud.Menu
 
             // Xph Display
             MenuItem xpRateMenu = AddChild(root, "Xph Display", settingsHub.XpRateSettings.Enable);
-            AddChild(xpRateMenu, "Show XP penalty", settingsHub.XpRateSettings.ShowXpPenalty);
+            MenuItem xpReceivingMenu = AddChild(xpRateMenu, "Show XP receiving", settingsHub.XpRateSettings.ShowXpReceiving);
+            AddChild(xpReceivingMenu, "With level penalty", settingsHub.XpRateSettings.LevelPenalty);
+            AddChild(xpReceivingMenu, "With party Penalty", settingsHub.XpRateSettings.PartyPenalty);
             AddChild(xpRateMenu, "Font size", settingsHub.XpRateSettings.TextSize);
             AddChild(xpRateMenu, "Background color:", settingsHub.XpRateSettings.BackgroundColor);
 

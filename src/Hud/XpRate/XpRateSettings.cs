@@ -11,13 +11,19 @@ namespace PoeHUD.Hud.XpRate
             Enable = true;
             TextSize = new RangeNode<int>(20, 10, 50);
             BackgroundColor = new ColorBGRA(0, 0, 0, 180);
-            ShowXpPenalty = false;
+            ShowXpReceiving = false;
+            LevelPenalty = true;
+            PartyPenalty = true;
         }
 
         public RangeNode<int> TextSize { get; set; }
 
         public ColorNode BackgroundColor { get; set; }
 
-        public ToggleNode ShowXpPenalty { get; set; }
+        public ToggleNode ShowXpReceiving { get; set; }
+
+        public ToggleNode LevelPenalty { get; set; }
+
+        public ToggleNode PartyPenalty { get; set; }
     }
 }

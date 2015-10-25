@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Linq;
 using PoeHUD.Controllers;
 using PoeHUD.Framework.Helpers;
 using PoeHUD.Hud.UI;
@@ -19,7 +19,8 @@ namespace PoeHUD.Hud.XpRate
 
         private long startXp;
 
-        private double xpPenalty;
+        private double levelXpPenalty, partyXpPenalty;
+
 
         public XpRatePlugin(GameController gameController, Graphics graphics, XpRateSettings settings)
             : base(gameController, graphics, settings)
@@ -41,6 +42,10 @@ namespace PoeHUD.Hud.XpRate
             if (elapsedTime.TotalSeconds > 1)
             {
                 CalculateXp(nowTime);
+                if (Settings.PartyPenalty)
+                {
+                    partyXpPenalty = PartyXpPenalty();
+                }
                 lastTime = nowTime;
             }
 
@@ -52,8 +57,9 @@ namespace PoeHUD.Hud.XpRate
             Size2 xpLeftSize = Graphics.DrawText(timeLeft, fontSize, secondLine, FontDrawFlags.Right);
             Vector2 thirdLine = secondLine.Translate(0, xpLeftSize.Height);
             var currentArea = GameController.Area.CurrentArea;
-            var xpPenaltyText = Settings.ShowXpPenalty ? $" & {xpPenalty:P1}" : string.Empty;
-            string areaName = $"{currentArea.Name} ({currentArea.RealLevel}lvl{xpPenaltyText})";
+            var xpReceiving = (Settings.LevelPenalty ? levelXpPenalty : 1.0) * (Settings.PartyPenalty ? partyXpPenalty : 1.0);
+            var xpReceivingText = Settings.ShowXpReceiving ? $" & {xpReceiving:p1}" : string.Empty;
+            string areaName = $"{currentArea.Name} ({currentArea.RealLevel}lvl{xpReceivingText})";
             Size2 areaNameSize = Graphics.DrawText(areaName, fontSize, thirdLine, FontDrawFlags.Right);
 
             string timer = AreaInstance.GetTimeString(nowTime - currentArea.TimeEntered);
@@ -94,7 +100,7 @@ namespace PoeHUD.Hud.XpRate
             }
         }
 
-        private double XpPenalty()
+        private double LevelXpPenalty()
         {
             // based on xp penalty formula from http://pathofexile.gamepedia.com/Experience
             int arenaLevel = GameController.Area.CurrentArea.RealLevel;
@@ -104,13 +110,21 @@ namespace PoeHUD.Hud.XpRate
             double xpMultiplier = Math.Max(Math.Pow((characterLevel + 5) / (characterLevel + 5 + Math.Pow(effectiveDifference, 2.5)), 1.5), 0.01);
             return xpMultiplier;
         }
+        private double PartyXpPenalty()
+        {
+            var levels = GameController.Entities.Where(y => y.HasComponent<Player>()).Select(y => y.GetComponent<Player>().Level).ToList();
+            // based on xp penalty formula from http://pathofexile.gamepedia.com/Experience
+            int characterLevel = GameController.Player.GetComponent<Player>().Level;
+            double partyXpPenalty = Math.Pow(characterLevel + 10, 2.71) / levels.Sum(level => Math.Pow(level + 10, 2.71));
+            return partyXpPenalty * levels.Count;
+        }
 
         private void AreaChange()
         {
             if (GameController.InGame)
             {
                 startXp = GameController.Player.GetComponent<Player>().XP;
-                xpPenalty = XpPenalty();
+                levelXpPenalty = LevelXpPenalty();
             }
 
             startTime = lastTime = DateTime.Now;
