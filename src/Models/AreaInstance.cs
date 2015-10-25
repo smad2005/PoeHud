@@ -5,13 +5,14 @@ namespace PoeHUD.Models
 {
     public sealed class AreaInstance
     {
-        public int RealLevel { get; private set; }
-        public int NominalLevel { get; private set; }
-        public string Name { get; private set; }
-        public int Act { get; private set; }
-        public bool IsTown { get; private set; }
-        public bool HasWaypoint { get; private set; }
-        public int Hash { get; private set; }
+        public int RealLevel { get; }
+        public int NominalLevel { get; }
+        public string Name { get; }
+        public int Act { get; }
+        public bool IsTown { get; }
+        public bool IsHideout { get; }
+        public bool HasWaypoint { get; }
+        public int Hash { get; }
         public DateTime TimeEntered = DateTime.Now;
         public AreaInstance(AreaTemplate area, int hash, int realLevel)
         {
@@ -22,6 +23,7 @@ namespace PoeHUD.Models
             Act = area.Act;
             IsTown = area.IsTown;
             HasWaypoint = area.HasWaypoint;
+            IsHideout = Name.Contains("Hideout");
         }
 
         public override string ToString()
