@@ -61,39 +61,79 @@ namespace PoeHUD.Hud.Health
                      * Render the health bar including the colours showing the proportion of life lost,
                     * and the flat numbers which overlay it.
                     */
-                    var life = healthBar.Entity.GetComponent<Life>();
+                
                     float scaledWidth = healthBar.Settings.Width * windowSize.Width;
                     float scaledHeight = healthBar.Settings.Height * windowSize.Height;
                     Color color = healthBar.Settings.Color;
-                    float hpPercent = life.HPPercentage;
-                    float esPercent = life.ESPercentage;
+                    float hpPercent = healthBar.Life.HPPercentage;
+                    float esPercent = healthBar.Life.ESPercentage;
                     float hpWidth = hpPercent * scaledWidth;
                     float esWidth = esPercent * scaledWidth;
                     var bg = new RectangleF(mobScreenCoords.X - scaledWidth / 2, mobScreenCoords.Y - scaledHeight / 2, scaledWidth, scaledHeight);
+                    float yPosition = bg.Y;
                     if (Settings.ShowDebuffPanel)
                     {
-                        DrawDebuffPanel(bg, healthBar, life);
+                        yPosition = DrawDebuffPanel(bg, healthBar, healthBar.Life);
                     }
+
+                    if (healthBar.Settings.ShowFloatingCombatDamage)
+                    {
+                        var middle = bg.X + bg.Width / 2;
+                        ShowDps(healthBar, new Vector2(middle, yPosition));
+                    }
+
                     if (hpPercent <= 0.1f)
                     {
                         color = healthBar.Settings.Under10Percent;
                     }
-                    bg.Y = DrawFlatLifeAmount(life, hpPercent, healthBar.Settings, bg);
-                    DrawFlatESAmount(life, healthBar.Settings, bg);
+                    bg.Y = DrawFlatLifeAmount(healthBar.Life, hpPercent, healthBar.Settings, bg);
+                    DrawFlatESAmount(healthBar.Life, healthBar.Settings, bg);
                     DrawPercents(healthBar.Settings, hpPercent, bg);
                     DrawBackground(color, healthBar.Settings.Outline, bg, hpWidth, esWidth);
                 }
             }
         }
 
-        private void DrawDebuffPanel(RectangleF bg, HealthBar healthBar, Life life)
+        private void ShowDps(HealthBar healthBar, Vector2 point)
+        {
+            const int MARGIN_TOP = 2;
+            const int LAST_DAMAGE_ADD_SIZE = 7;
+            var fontSize = healthBar.Settings.FloatingCombatFontSize + LAST_DAMAGE_ADD_SIZE;
+            var textHeight = Graphics.MeasureText("100500", fontSize).Height;
+
+            healthBar.DpsRefresh();
+
+            point = point.Translate(0, -textHeight - MARGIN_TOP);
+            int i = 0;
+            foreach (var dps in healthBar.DpsQueue)
+            {
+                i++;
+                var damageColor = healthBar.Settings.FloatingCombatDamageColor;
+                var sign = string.Empty;
+                if (dps > 0)
+                {
+                    damageColor = healthBar.Settings.FloatingCombatHealColor;
+                    sign = "+";
+                }
+
+                string dpsText = $"{sign}{dps}";
+                Graphics.DrawText(dpsText, fontSize, point, Color.Black, FontDrawFlags.Center);
+                point = point.Translate(0, -Graphics.DrawText(dpsText, fontSize, point.Translate(1, 0), damageColor, FontDrawFlags.Center).Height - MARGIN_TOP);
+                if (i == 1)
+                {
+                    fontSize -= LAST_DAMAGE_ADD_SIZE;
+                }
+            }
+            healthBar.DpsDequeue();
+        }
+
+        private float DrawDebuffPanel(RectangleF bg, HealthBar healthBar, Life life)
         {
             var buffs = life.Buffs;
+            var startY = bg.Top;
             if (buffs.Count > 0)
             {
                 var isHostile = healthBar.Entity.IsHostile;
-                var startY = bg.Top - Settings.DebuffPanelIconSize - 2;
-                var startX = bg.Left;
                 int debuffTable = 0;
                 foreach (var buff in buffs)
                 {
@@ -110,12 +150,15 @@ namespace PoeHUD.Hud.Health
                         debuffTable |= 16;
                     else if (HasDebuff(debuffPanelConfig.WeakenedSlowed, buffName, isHostile))
                         debuffTable |= 32;
-                    else
-                        debuffTable |= 0;
                 }
-
-                DrawAllDebuff(debuffTable, startX, startY);
+                if (debuffTable > 0)
+                {
+                    startY -= Settings.DebuffPanelIconSize + 2;
+                    var startX = bg.Left;
+                    DrawAllDebuff(debuffTable, startX, startY);
+                }
             }
+            return startY;
         }
 
         private void DrawAllDebuff(int debuffTable, float startX, float startY)

@@ -133,9 +133,7 @@
     <Compile Include="Hud\ExternalOverlay.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Hud\Health\AllyUnitSettings.cs" />
     <Compile Include="Hud\Health\DebuffPanelConfig.cs" />
-    <Compile Include="Hud\Health\EnemyUnitSettings.cs" />
     <Compile Include="Hud\Health\HealthBarSettings.cs" />
     <Compile Include="Hud\Health\UnitSettings.cs" />
     <Compile Include="Hud\Icons\MapIconsSettings.cs" />

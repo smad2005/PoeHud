@@ -59,7 +59,7 @@ namespace PoeHUD.Hud.XpRate
             var currentArea = GameController.Area.CurrentArea;
             var xpReceiving = (Settings.LevelPenalty ? levelXpPenalty : 1.0) * (Settings.PartyPenalty ? partyXpPenalty : 1.0);
             var xpReceivingText = Settings.ShowXpReceiving ? $" & {xpReceiving:p1}" : string.Empty;
-            string areaName = $"{currentArea.Name} ({currentArea.RealLevel}lvl{xpReceivingText})";
+            string areaName = $"{currentArea.Name} ({currentArea.RealLevel}Lvl{xpReceivingText})";
             Size2 areaNameSize = Graphics.DrawText(areaName, fontSize, thirdLine, FontDrawFlags.Right);
 
             string timer = AreaInstance.GetTimeString(nowTime - currentArea.TimeEntered);

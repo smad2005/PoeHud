@@ -57,12 +57,12 @@ namespace PoeHUD.Hud.Dps
                 {
                     damageMemoryIndex = 0;
                 }
-                damageMemory[damageMemoryIndex] = CalculateDps(elapsedTime);
+                damageMemory[damageMemoryIndex] = CalculateDps();
                 lastTime = nowTime;
             }
 
             Vector2 position = StartDrawPointFunc();
-            var dps = (int)damageMemory.Average();
+            var dps = (int)damageMemory.Sum();
             maxDps = Math.Max(dps, maxDps);
 
             string dpsText = dps + " DPS";
@@ -80,32 +80,27 @@ namespace PoeHUD.Hud.Dps
             Margin = new Vector2(5, 0);
         }
 
-        private double CalculateDps(TimeSpan elapsedTime)
+        private double CalculateDps()
         {
             int totalDamage = 0;
-            var monsters = new Dictionary<long, int>();
             foreach (EntityWrapper monster in GameController.Entities.Where(x => x.HasComponent<Monster>() && x.IsHostile))
             {
-                int hp = monster.IsAlive ? monster.GetComponent<Life>().CurHP + monster.GetComponent<Life>().CurES : 0;
+                var life = monster.GetComponent<Life>();
+                int hp = monster.IsAlive ? life.CurHP + life.CurES : 0;
                 if (hp > -1000000 && hp < 10000000)
                 {
                     int lastHP;
                     if (lastMonsters.TryGetValue(monster.LongId, out lastHP))
                     {
-                        // make this a separte if statement to prevent dictionary already containing item
-                        if (lastHP > hp) 
+                        if (lastHP != hp)
                         {
                             totalDamage += lastHP - hp;
                         }
                     }
-
-                    //very rare, but sometimes happen collisions
-                    if (!monsters.ContainsKey(monster.LongId))
-                        monsters.Add(monster.LongId, hp);
+                    lastMonsters[monster.LongId] = hp;
                 }
             }
-            lastMonsters = monsters;
-            return totalDamage / elapsedTime.TotalSeconds;
+            return totalDamage < 0 ? 0 : totalDamage;
         }
     }
 }
