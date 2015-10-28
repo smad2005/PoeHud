@@ -260,6 +260,7 @@ namespace PoeHUD.Hud.Menu
             // Show monster kills
             MenuItem showMonsterKillsMenu = AddChild(root, "Show MK", settingsHub.KillsCounterSettings.Enable);
             AddChild(showMonsterKillsMenu, "Show details", settingsHub.KillsCounterSettings.ShowDetail);
+            AddChild(showMonsterKillsMenu, "Per session", settingsHub.KillsCounterSettings.PerSession);
 
             // show Item-Drop-Counter // doesnt work yet
             //MenuItem showItemDropMenu = AddChild(root, "Show ItemDrops", settingsHub.ItemCounterSettings.Enable);

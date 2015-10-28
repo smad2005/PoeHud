@@ -18,17 +18,19 @@ namespace PoeHUD.Hud.KC
     {
         private readonly HashSet<EntityWrapper> aliveEntities;
 
-        private readonly HashSet<long> countedIds;
-
+        private readonly Dictionary<int,HashSet<long>> countedIds;
+        private GameController gameController;
         private readonly Dictionary<MonsterRarity, int> counters;
 
         private int summaryCounter;
+        private int summaryCounterPerSession;
 
         public KillsCounterPlugin(GameController gameController, Graphics graphics, KillCounterSettings settings)
             : base(gameController, graphics, settings)
         {
+            this.gameController = gameController;
             aliveEntities = new HashSet<EntityWrapper>();
-            countedIds = new HashSet<long>();
+            countedIds = new Dictionary<int, HashSet<long>>();
             counters = new Dictionary<MonsterRarity, int>();
             Init();
             GameController.Area.OnAreaChange += area =>
@@ -38,8 +40,8 @@ namespace PoeHUD.Hud.KC
                     return;
                 }
                 aliveEntities.Clear();
-                countedIds.Clear();
                 counters.Clear();
+                summaryCounterPerSession += summaryCounter;
                 summaryCounter = 0;
                 Init();
             };
@@ -66,9 +68,9 @@ namespace PoeHUD.Hud.KC
             {
                 size = DrawCounters(position);
             }
-            Size2 size2 = Graphics.DrawText(string.Format("Total kills {0}", summaryCounter), 14,
-                position.Translate(-size.Width / 2f, size.Height),
-                Settings.ShowDetail ? FontDrawFlags.Center : FontDrawFlags.Right);
+            var perSessionText = Settings.PerSession ? $"({summaryCounterPerSession + summaryCounter})" : string.Empty;
+            Size2 size2 = Graphics.DrawText($"Total kills {summaryCounter} {perSessionText}", 14,
+                position.Translate(0, size.Height), FontDrawFlags.Right);
             int width = Math.Max(size.Width, size2.Width);
             var bounds = new RectangleF(position.X - width - 5, position.Y - 5, width + 10, size.Height + size2.Height + 10);
             Graphics.DrawBox(bounds, new ColorBGRA(0, 0, 0, 180));
@@ -105,9 +107,17 @@ namespace PoeHUD.Hud.KC
 
         private void Calc(EntityWrapper entityWrapper)
         {
-            if (!countedIds.Contains(entityWrapper.LongId))
+            HashSet<long> monstersHashSet;
+            var areaHash = gameController.Area.CurrentArea.Hash;
+
+            if (!countedIds.TryGetValue(areaHash, out monstersHashSet))
             {
-                countedIds.Add(entityWrapper.LongId);
+                monstersHashSet = new HashSet<long>();
+                countedIds[areaHash] = monstersHashSet;
+            }
+            if (!monstersHashSet.Contains(entityWrapper.LongId))
+            {
+                monstersHashSet.Add(entityWrapper.LongId);
                 MonsterRarity rarity = entityWrapper.GetComponent<ObjectMagicProperties>().Rarity;
                 if (entityWrapper.IsHostile && counters.ContainsKey(rarity))
                 {
