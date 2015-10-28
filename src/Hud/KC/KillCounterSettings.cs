@@ -8,8 +8,11 @@ namespace PoeHUD.Hud.KC
         {
             Enable = false;
             ShowDetail = true;
+            PerSession = false;
         }
 
         public ToggleNode ShowDetail { get; set; }
+
+        public ToggleNode PerSession { get; set; }
     }
 }
