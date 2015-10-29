@@ -25,7 +25,6 @@ namespace PoeHUD.Hud.XpRate
         public XpRatePlugin(GameController gameController, Graphics graphics, XpRateSettings settings)
             : base(gameController, graphics, settings)
         {
-            AreaChange();
             GameController.Area.OnAreaChange += area => AreaChange();
         }
 

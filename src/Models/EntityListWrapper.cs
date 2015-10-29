@@ -28,7 +28,17 @@ namespace PoeHUD.Models
             get { return entityCache.Values; }
         }
 
-        public EntityWrapper Player { get; private set; }
+        private EntityWrapper player;
+
+        public EntityWrapper Player
+        {
+            get
+            {
+                if (player == null)
+                    UpdatePlayer();
+                return player;
+            }
+        }
         public event Action<EntityWrapper> EntityAdded;
 
         public event Action<EntityWrapper> EntityRemoved;
@@ -61,11 +71,7 @@ namespace PoeHUD.Models
 
         public void RefreshState()
         {
-            int address = gameController.Game.IngameState.Data.LocalPlayer.Address;
-            if ((Player == null) || (Player.Address != address))
-            {
-                Player = new EntityWrapper(gameController, address);
-            }
+            UpdatePlayer();
             if (gameController.Area.CurrentArea == null)
                 return;
             
@@ -106,6 +112,15 @@ namespace PoeHUD.Models
             }
             RemoveOldEntitiesFromCache();
             entityCache = newCache;
+        }
+
+        private void UpdatePlayer()
+        {
+            int address = gameController.Game.IngameState.Data.LocalPlayer.Address;
+            if ((player == null) || (player.Address != address))
+            {
+                player = new EntityWrapper(gameController, address);
+            }
         }
 
         public EntityWrapper GetEntityById(int id)

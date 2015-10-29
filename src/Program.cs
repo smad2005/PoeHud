@@ -75,8 +75,6 @@ namespace PoeHUD
 			{
 				offs.DoPatternScans(memory);
 				var gameController = new GameController(memory);
-				gameController.RefreshState();
-
                 var overlay = new ExternalOverlay(gameController, memory.IsInvalid);
                 Application.Run(overlay);
 			}

@@ -48,8 +48,8 @@ namespace PoeHUD.Controllers
         {
             if (InGame)
             {
-                EntityListWrapper.RefreshState();
                 Area.RefreshState();
+                EntityListWrapper.RefreshState();
             }
         }
 

@@ -141,8 +141,7 @@ namespace PoeHUD.Hud
             Bounds = WinApi.GetClientRectangle(gameHandle);
             WinApi.EnableTransparent(Handle, Bounds);
             graphics = new Graphics2D(this, Bounds.Width, Bounds.Height);
-            graphics.Render += OnRender;
-
+        
             plugins.Add(new HealthBarPlugin(gameController, graphics, settings.HealthBarSettings));
             plugins.Add(new MinimapPlugin(gameController, graphics, GatherMapIcons, settings.MapIconsSettings));
             plugins.Add(new LargeMapPlugin(gameController, graphics, GatherMapIcons, settings.MapIconsSettings));
@@ -172,6 +171,7 @@ namespace PoeHUD.Hud
 
             CheckGameWindow();
             CheckGameState();
+            graphics.Render += OnRender;
             await Task.Run(() => graphics.RenderLoop());
         }
 
