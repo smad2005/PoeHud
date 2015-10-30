@@ -70,24 +70,15 @@ namespace PoeHUD.Hud.Health
                     float hpWidth = hpPercent * scaledWidth;
                     float esWidth = esPercent * scaledWidth;
                     var bg = new RectangleF(mobScreenCoords.X - scaledWidth / 2, mobScreenCoords.Y - scaledHeight / 2, scaledWidth, scaledHeight);
-                    float yPosition = bg.Y;
-                    if (Settings.ShowDebuffPanel)
-                    {
-                        yPosition = DrawDebuffPanel(bg, healthBar, healthBar.Life);
-                    }
-
-                    if (healthBar.Settings.ShowFloatingCombatDamage)
-                    {
-                        var middle = bg.X + bg.Width / 2;
-                        ShowDps(healthBar, new Vector2(middle, yPosition));
-                    }
-
+                    
                     if (hpPercent <= 0.1f)
                     {
                         color = healthBar.Settings.Under10Percent;
                     }
                     bg.Y = DrawFlatLifeAmount(healthBar.Life, hpPercent, healthBar.Settings, bg);
-                    DrawFlatESAmount(healthBar.Life, healthBar.Settings, bg);
+                    var yPosition = DrawFlatESAmount(healthBar, bg);
+                    yPosition = DrawDebuffPanel(new Vector2(bg.Left, yPosition), healthBar, healthBar.Life);
+                    ShowDps(healthBar, new Vector2(bg.Center.X, yPosition));
                     DrawPercents(healthBar.Settings, hpPercent, bg);
                     DrawBackground(color, healthBar.Settings.Outline, bg, hpWidth, esWidth);
                 }
@@ -96,7 +87,11 @@ namespace PoeHUD.Hud.Health
 
         private void ShowDps(HealthBar healthBar, Vector2 point)
         {
-            const int MARGIN_TOP = 2;
+            if (!healthBar.Settings.ShowFloatingCombatDamage)
+            {
+                return;
+            }
+                const int MARGIN_TOP = 2;
             const int LAST_DAMAGE_ADD_SIZE = 7;
             var fontSize = healthBar.Settings.FloatingCombatFontSize + LAST_DAMAGE_ADD_SIZE;
             var textHeight = Graphics.MeasureText("100500", fontSize).Height;
@@ -127,10 +122,14 @@ namespace PoeHUD.Hud.Health
             healthBar.DpsDequeue();
         }
 
-        private float DrawDebuffPanel(RectangleF bg, HealthBar healthBar, Life life)
+        private float DrawDebuffPanel(Vector2 startPoint, HealthBar healthBar, Life life)
         {
+            var startY = startPoint.Y;
+            if (!Settings.ShowDebuffPanel)
+            {
+                return startY;
+            }
             var buffs = life.Buffs;
-            var startY = bg.Top;
             if (buffs.Count > 0)
             {
                 var isHostile = healthBar.Entity.IsHostile;
@@ -154,7 +153,7 @@ namespace PoeHUD.Hud.Health
                 if (debuffTable > 0)
                 {
                     startY -= Settings.DebuffPanelIconSize + 2;
-                    var startX = bg.Left;
+                    var startX = startPoint.X;
                     DrawAllDebuff(debuffTable, startX, startY);
                 }
             }
@@ -239,11 +238,9 @@ namespace PoeHUD.Hud.Health
 			string curHp = ConvertHelper.ToShorten(life.CurHP);
 			string maxHp = ConvertHelper.ToShorten(life.MaxHP);
 			string text = string.Format("{0}/{1}", curHp, maxHp);
-			Color color = hpPercent <= 0.1f ? settings.HealthTextColorUnder10Percent : 
-				settings.HealthTextColor;
-			var position = new Vector2(bg.X + bg.Width / 2, bg.Y);
-			Size2 size = Graphics.DrawText(text, settings.TextSize, position, color,
-				FontDrawFlags.Center);
+			Color color = hpPercent <= 0.1f ? settings.HealthTextColorUnder10Percent : settings.HealthTextColor;
+            var position = new Vector2(bg.X + bg.Width / 2, bg.Y);
+			Size2 size = Graphics.DrawText(text, settings.TextSize, position, color, FontDrawFlags.Center);
 			return (int)bg.Y + (size.Height - bg.Height) / 2;
 		}
 
@@ -251,23 +248,21 @@ namespace PoeHUD.Hud.Health
 		 * I didn't bother to have ES change colour as it gets low, sorry CI
 		 * players!
 		 */
-		private float DrawFlatESAmount(Life life, UnitSettings settings, 
-			RectangleF bg)
+		private float DrawFlatESAmount(HealthBar healthBar, RectangleF bg)
 		{
-			if (!settings.ShowHealthText || (int)life.MaxES == 0)
+			if (!healthBar.Settings.ShowHealthText || healthBar.Life.MaxES == 0)
 			{
 				return bg.Y;
 			}
 
-			string curES = ConvertHelper.ToShorten(life.CurES);
-			string maxES = ConvertHelper.ToShorten(life.MaxES);
+			string curES = ConvertHelper.ToShorten(healthBar.Life.CurES);
+			string maxES = ConvertHelper.ToShorten(healthBar.Life.MaxES);
 			string text = string.Format("{0}/{1}", curES, maxES);
-			Color color = settings.HealthTextColor;
+			Color color = healthBar.Settings.HealthTextColor;
 			var position = new Vector2(bg.X + bg.Width / 2, (bg.Y - 12));
-			Size2 size = Graphics.DrawText(text, settings.TextSize, position, 
-				color, FontDrawFlags.Center);
-			return (int)bg.Y + (size.Height - bg.Height) / 2;
-		}
+			Size2 size = Graphics.DrawText(text, healthBar.Settings.TextSize, position, color, FontDrawFlags.Center);
+            return (int)bg.Y + (size.Height - bg.Height) / 2 - 10;
+        }
 		
         private void DrawPercents(UnitSettings settings, float hpPercent, RectangleF bg)
         {
