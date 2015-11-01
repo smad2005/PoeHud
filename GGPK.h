@@ -1,19 +1,18 @@
+struct DirChildren
+{
+	int MurmurHash;
+    unsigned  __int64  Child as AbstractFile*;
+};
+
 
 struct File 
 {
 
     int FileNameLenth;
-	unsigned char hash[32];
+	unsigned char Hash[32];
 	wchar_t Name[FileNameLenth];
 	
 } ;
-
-struct DirChildren
-{
-	int MurmurHash;
-    unsigned  __int64  child as AbstractFile*;
-};
-
 
 struct Dir
 {
@@ -24,11 +23,12 @@ struct Dir
 	DirChildren Children[RecordsCount];
 };
 
+
 struct GGPKFile
 {
 	int RecordsCount;
     unsigned  __int64  PROOT as Root * ;
-	unsigned  __int64  PFree;
+	unsigned  __int64  PFree as AbstractFile*;
 };
 
  struct AbstractFile   
@@ -43,6 +43,9 @@ struct GGPKFile
 			   Dir Dir;
 		 case Tag == "GGPK":
 		       GGPKFile GGPK;
+		 case Tag == "FREE":
+			 unsigned  __int64  NextFreeFile;// as AbstractFile*;
+			// char Trash[Length - 16];
 	 
 	} AbstractFile;
 };
