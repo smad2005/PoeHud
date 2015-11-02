@@ -9,7 +9,7 @@ struct File
 {
 
     int FileNameLenth;
-	unsigned char Hash[32];
+	unsigned char Hash[32] ; //sha256
 	wchar_t Name[FileNameLenth];
 	
 } ;
@@ -18,7 +18,7 @@ struct Dir
 {
 	int FileNameLenth;
 	int RecordsCount;
-	unsigned char hash[32];
+	unsigned char hash[32];  //sha256
 	wchar_t Name[FileNameLenth];
 	DirChildren Children[RecordsCount];
 };
@@ -59,7 +59,7 @@ struct GGPKFile
 
 public struct FileData
 {
-	
+	int RowsCount;
 };
 
 
