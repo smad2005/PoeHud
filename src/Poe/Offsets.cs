@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.InteropServices;
 using PoeHUD.Framework;
 using PoeHUD.Models;
 
@@ -116,13 +117,23 @@ namespace PoeHUD.Poe
 		 */
 
 
-   
+        private static readonly Pattern inGameOffsetPattern = new Pattern(@"\x8B\x0F\x6A\x01\x51\xFF\x15\x00\x00\x00\x00\x88\x9F\x00\x00\x00\x00\xC7\x86\x00\x00\x00\x00\x00\x00\x00\x00\xEB\x11", "xxxxxxx????xx????xx????????xx");
+         /*
+              8B 0F                              mov     ecx, [edi]
+              6A 01                              push    1               
+              51                                 push    ecx              
+              FF 15 54 5A B9 00                  call    ds:shutdown
+              88 9F 80 00 00 00                  mov     [edi+80h], bl
+              C7 86 BC 30 00 00 01 00 00 00      mov     dword ptr [esi+30BCh], 1
+              EB 11                              jmp     short loc_5F3972
+         */
         public int AreaChangeCount { get; private set; }
         public int Base { get; private set; }
         public string ExeName { get; private set; }
         public int FileRoot { get; private set; }
         public int IgsDelta { get; private set; }
         public int IgsOffset { get; private set; }
+        public int InGameOffset { get; private set; }
 
         public int IgsOffsetDelta 
         {
@@ -132,16 +143,12 @@ namespace PoeHUD.Poe
 
 
         public void DoPatternScans(Memory m)
-        {
-            int[] array = m.FindPatterns(new[]
-            {
-                basePtrPattern,
-                fileRootPattern,
-                areaChangePattern,
-            });
+        { 
+            int[] array = m.FindPatterns(basePtrPattern, fileRootPattern, areaChangePattern, inGameOffsetPattern);
             Base = m.ReadInt(m.AddressOfProcess + array[0] + 22) - m.AddressOfProcess;
             FileRoot = m.ReadInt(m.AddressOfProcess + array[1] + 40) - m.AddressOfProcess;
             AreaChangeCount = m.ReadInt(m.AddressOfProcess + array[2] + 13) - m.AddressOfProcess;
+            InGameOffset = m.ReadInt(m.AddressOfProcess + array[3] + 0x13);
         }
     }
 }
